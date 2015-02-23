@@ -50,14 +50,17 @@ Accelerate your next web project and start with this Simple App Blueprint for th
     1. Create a new repostitory in your Github account
     2. Change the remote origin to point to your new repository: $ git remote set-url origin https://github.com/USERNAME/NEW_REPO.git
 
-2. Create Staging environment on Heroku
+2. Install Heroku Toolbelt and git it configured
+    1. Follow https://devcenter.heroku.com/articles/getting-started-with-python#set-up
+    
+3. Create Staging environment on Heroku
     1. $ heroku create projectname-staging
-    2. $ git remote add staging git@heroku.com:projectname-staging.git
+    2. $ git remote add staging https://git.heroku.com/projectname-staging.git
     3. $ heroku config:set APP_SETTINGS=config.StagingConfig --remote staging
 
-3. Create Production environment on Heroku
+4. Create Production environment on Heroku
     1. $ heroku create projectname-production
-    2. $ git remote add production git@heroku.com:projectname-production.git
+    2. $ git remote add production https://git.heroku.com/projectname-production.git
     3. $ heroku config:set APP_SETTINGS=config.ProductionConfig --remote production
 
 ### 3. Setup and Initialize Database

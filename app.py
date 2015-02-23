@@ -15,7 +15,7 @@ from forms import NotesForm
 @app.route('/', methods=['GET', 'POST'])
 def home():
     """Render homepage"""
-    
+
     errors = []
     note = {}
 
@@ -31,11 +31,10 @@ def home():
             db.session.commit()
         except:
             errors.append("Unable to add item to database.")
-    
 
     form = NotesForm(request.form)
     notes = Notes.query.all()
-    
+
     return render_template('home.html', errors=errors, form=form, notes=notes)
 
 
