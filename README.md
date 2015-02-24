@@ -42,7 +42,7 @@ Accelerate your next web project and start with this Simple App Blueprint for th
 
 5. Install Packages
     1. pip install flask
-    2. pip install flake psycopg2 Flask-SQLAlchemy Flask-Migrate WTForms flask_wtf
+    2. pip install flake psycopg2 Flask-SQLAlchemy Flask-Migrate WTForms flask_wtf gunicorn
     3. pip freeze > requirements.txt
 
 ### 2. Create GitHub and Heroku App and Repositories
