@@ -117,7 +117,7 @@ That was easy right? You are ready to go modify and built your next killer app. 
 
 
 ## Thanks!
-Thanks to [Flaks by Example on Real Python](https://realpython.com/blog/python/flask-by-example-part-1-project-setup/), written by [Cam Linke](https://twitter.com/camlinke) for the basics and learning me to do this.
+Thanks to [Flask by Example on Real Python](https://realpython.com/blog/python/flask-by-example-part-1-project-setup/), written by [Cam Linke](https://twitter.com/camlinke) for the basics and learning me to do this.
 
 
 ## Questions / Feedback?
