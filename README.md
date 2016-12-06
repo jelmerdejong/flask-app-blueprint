@@ -30,7 +30,7 @@ Accelerate your next web project and start with this Simple App Blueprint for th
 
 3. Clone the repository and create a working directory
     1. $ git clone git@github.com:jelmerdejong/sab-basic.git
-    2. $ git rm simple-basic projectname
+    2. $ mv sab-basic projectname
     2. $ cd projectname
 
 4. Create virtual environment
@@ -73,18 +73,20 @@ Accelerate your next web project and start with this Simple App Blueprint for th
     5. Restart environment: $ workon projectname
 
 2. Initialize and run database migrations
-    1. $ python manage.py db init
-    2. $ python manage.py db migrate
-    3. $ python manage.py db upgrade
+    1. delete the directory named 'migrations'
+    2. $ python manage.py db init
+    3. $ python manage.py db migrate
+    4. $ python manage.py db upgrade
 
 3. Setup databases on Heroku
     1. Create databases:
-        1. $ heroku addons:add heroku-postgresql:dev --app projectname-staging
-        2. $ heroku addons:add heroku-postgresql:dev --app projectname-production
+        1. $ heroku addons:add heroku-postgresql:hobby-dev --app projectname-staging
+        2. $ heroku addons:add heroku-postgresql:hobby-dev --app projectname-production
     2. Commit database migration and push to staging and live
-        1. $ git commit -a -m "Database migrations"
-        2. $ git push staging master
-        3. $ git push production master
+        1. $ git add .
+        2. $ git commit -a -m "Database migrations"
+        3. $ git push staging master
+        4. $ git push production master
     2. Run database migrations:
         1. $ heroku run python manage.py db upgrade --app projectname-staging
         2. $ heroku run python manage.py db upgrade --app projectname-production 
