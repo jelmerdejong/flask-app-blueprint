@@ -5,11 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}">
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -17,14 +25,101 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script>
+	  $(function() {
+		    $( ".dtpick" ).datepicker({ dateFormat: 'yy-mm-dd'});
+	  });
+	  </script>
   </head>
   <body>
-    {% block content %}{% endblock %}
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{{ url_for('home') }}">
+            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Flask App Blueprint
+          </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          {% if current_user.is_authenticated %}
+          <li {% if request.path == url_for('home') %}class="active"{% endif %}>
+            <a href="{{ url_for('home') }}">Home</a>
+          </li>
+          <li {% if request.path == url_for('all_items') %}class="active"{% endif %}>
+            <a href="{{ url_for('all_items') }}">All Items</a>
+          </li>
+          <li {% if request.path == url_for('add_item') %}class="active"{% endif %}>
+            <a href="{{ url_for('add_item') }}">Add Item</a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{current_user.email}} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{{ url_for('user_profile') }}">My Profile</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li><a href="{{ url_for('register') }}">Register</a></li>
+          <li><a href="{{ url_for('login') }}">Log In</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <!-- flash messages -->
+    {% for success_message in get_flashed_messages(category_filter=["success"]) %}
+    <div class="container">
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{ success_message }}
+      </div>
+    </div>
+    {% endfor %}
+    {% for info_message in get_flashed_messages(category_filter=["info"]) %}
+    <div class="container">
+      <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{ info_message }}
+      </div>
+    </div>
+    {% endfor %}
+    {% for error_message in get_flashed_messages(category_filter=["warning"]) %}
+    <div class="container">
+      <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{ error_message }}
+      </div>
+    </div>
+    {% endfor %}
+    {% for error_message in get_flashed_messages(category_filter=["danger"]) %}
+    <div class="container">
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{ error_message }}
+      </div>
+    </div>
+    {% endfor %}
+
+
+
+    <!-- content -->
+    <div class="container">
+      <div class="page-header">
+        <h1>{{ self.title() }}</h1>
+      </div>
+      {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+      <div class="container" style="margin-top:250px">
+        <ul class="list-inline text-center">
+          <li>About</li>
+          <li>FAQ</li>
+          <li>Contact / Feedback</li>
+        </ul>
+        <p class="text-center">Created by Flask App Blueprint.</p>
+      </div>
+    </footer>
+
   </body>
 </html>

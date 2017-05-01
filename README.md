@@ -1,5 +1,5 @@
-# Simple App Blueprint: Basic
-The Simple App Blueprint: Basic (dupped sab-basic) will help you get started with an easy to learn, yet powerful technology stack. A stack that you can have up and running in less than 5 minutes, so you can focus on making the real thing. It includes a database, shows how to insert and retreive info from that database, and have it all deployed on Heroku.
+# Flask App Blueprint
+A simple Flask app blueprint. This will help you get started with an easy to learn, yet powerful technology stack. A stack that you can have up and running in less than 25 minutes, so you can focus on making the real thing. Including registration, login, insert and retrieve info from that database, and have it all deployed on Heroku.
 
 
 ## Technology Stack
@@ -16,7 +16,7 @@ The Simple App Blueprint: Basic (dupped sab-basic) will help you get started wit
 
 
 ## Getting Started
-Accelerate your next web project and start with this Simple App Blueprint for the basics. For now, this Getting Started how-to is for written for OSX.
+Accelerate your next web project and start with this Flask App Blueprint. For now, this Getting Started how-to is for written for OSX.
 
 ### 1. Setup your development environment
 1. Install virtualenv
@@ -50,7 +50,7 @@ Accelerate your next web project and start with this Simple App Blueprint for th
 
 2. Install Heroku Toolbelt and git it configured
     1. Follow https://devcenter.heroku.com/articles/getting-started-with-python#set-up
-    
+
 3. Create Staging environment on Heroku
     1. $ heroku create projectname-staging
     2. $ git remote add staging https://git.heroku.com/projectname-staging.git
@@ -89,7 +89,7 @@ Accelerate your next web project and start with this Simple App Blueprint for th
         4. $ git push production master
     2. Run database migrations:
         1. $ heroku run python manage.py db upgrade --app projectname-staging
-        2. $ heroku run python manage.py db upgrade --app projectname-production 
+        2. $ heroku run python manage.py db upgrade --app projectname-production
 
 ### 4. Deploy
 1. Run locally
@@ -116,10 +116,5 @@ That was easy right? You are ready to go modify and built your next killer app. 
 4. Finally: deploy to product ($ git push production master)
 
 
-## Thanks!
-Thanks to [Flask by Example on Real Python](https://realpython.com/blog/python/flask-by-example-part-1-project-setup/), written by [Cam Linke](https://twitter.com/camlinke) for the basics and learning me to do this.
-
-
 ## Questions / Feedback?
 If you have questions or feedback, do not hesitate to use the Issues tool in this repository.
-

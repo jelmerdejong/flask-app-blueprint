@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+{% block title %}Flask App Blueprint{% endblock %}
+{% from "_formshelper.html" import render_field %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-6">
+    <form action="{{ url_for('login') }}" method="post">
+        {{ form.csrf_token }}
+        <div class="form-group">
+          {{ form.email.label }}
+          {{ render_field(form.email, class="form-control", placeholder="Email address") }}
+        </div>
+        <div class="form-group">
+          {{ form.password.label }}
+          {{ render_field(form.password, class="form-control", placeholder="Password") }}
+        </div>
+        <input type="submit" value="Log In" class="btn btn-lg btn-success">
+    </form>
+  </div>
+  <div class="col-md-6">
+    <h3>Start your new MVP today!</h3>
+    <h4>Flask App Blueprint: focus on your unique idea.</h4>
+    <p>With Flask App Blueprint you have a simple to start direclty with your idea, without spending way to much time fixing the basics. Get going, start today.</p>
+    <p><em>Don't have an account yet?</em> <a href="{{ url_for('register') }}">Sign up for free!</a></p>
+  </div>
+</div>
+
+
+{% endblock %}
