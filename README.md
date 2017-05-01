@@ -20,90 +20,90 @@ Accelerate your next web project and start with this Flask App Blueprint. For no
 
 ### 1. Setup your development environment
 1. Install virtualenv
-    1. $ sudo pip install virtualenv
+    1. Run `sudo pip install virtualenv`
 
 2. Install virtualenvwrapper
-    1. $ sudo pip install virtualenvwrapper
-    2. $ export WORKON_HOME=~/Envs
-    3. $ mkdir -p $WORKON_HOME
-    4. $ source /user/local/bin/virtualenvwrapper.sh
+    1. Run `sudo pip install virtualenvwrapper`
+    2. Run `export WORKON_HOME=~/Envs`
+    3. Run `mkdir -p $WORKON_HOME`
+    4. Run `source /user/local/bin/virtualenvwrapper.sh`
 
 3. Clone the repository and create a working directory
-    1. $ git clone git@github.com:jelmerdejong/flask-app-blueprint.git
-    2. $ mv sab-basic projectname
-    2. $ cd projectname
+    1. Run `git clone git@github.com:jelmerdejong/flask-app-blueprint.git`
+    2. Run `mv sab-basic projectname`
+    2. Run `cd projectname`
 
 4. Create virtual environment
-    1. $ mkvirtualenv projectname
+    1. Run `mkvirtualenv projectname`
     2. Update postactate file:
-        1. $ nano $VIRTUAL_ENV/bin/postactivate
-        2. Add (and modify) the following line: cd ~/path/to/your/project
-        3. Add: export APP_SETTINGS="config.DevelopmentConfig"
+        1. Run `nano $VIRTUAL_ENV/bin/postactivate`
+        2. Add (and modify) the following line: `cd ~/path/to/your/project`
+        3. Add second line: `export APP_SETTINGS="config.DevelopmentConfig"`
 
 5. Install Packages
-    1. pip install -r requirements.txt
+    1. Run `pip install -r requirements.txt`
 
 ### 2. Create GitHub and Heroku App and Repositories
 1. Setup Github Repository
     1. Create a new repostitory in your Github account
-    2. Change the remote origin to point to your new repository: $ git remote set-url origin https://github.com/USERNAME/NEW_REPO.git
+    2. Change the remote origin to point to your new repository: `git remote set-url origin https://github.com/USERNAME/NEW_REPO.git`
 
 2. Install Heroku Toolbelt and git it configured
     1. Follow https://devcenter.heroku.com/articles/getting-started-with-python#set-up
 
 3. Create Staging environment on Heroku
-    1. $ heroku create projectname-staging
-    2. $ git remote add staging https://git.heroku.com/projectname-staging.git
-    3. $ heroku config:set APP_SETTINGS=config.StagingConfig --remote staging
+    1. Run `heroku create projectname-staging`
+    2. Run `git remote add staging https://git.heroku.com/projectname-staging.git`
+    3. RUn `heroku config:set APP_SETTINGS=config.StagingConfig --remote staging`
 
 4. Create Production environment on Heroku
-    1. $ heroku create projectname-production
-    2. $ git remote add production https://git.heroku.com/projectname-production.git
-    3. $ heroku config:set APP_SETTINGS=config.ProductionConfig --remote production
+    1. Run `heroku create projectname-production`
+    2. Run `git remote add production https://git.heroku.com/projectname-production.git`
+    3. Run `heroku config:set APP_SETTINGS=config.ProductionConfig --remote production`
 
 ### 3. Setup and Initialize Database
 1. Setup local database
     1. Download and install [Postgres.app](http://postgresapp.com/)
     2. Open Postgres.app and open psql
     3. Create new database:
-        1. Run in psql: CREATE DATABASE projectname;
+        1. Run in psql: `CREATE DATABASE projectname;`
     4. Update local configuration:
-        1. $ nano $VIRTUAL_ENV/bin/postactivate
-        2. Add: export DATABASE_URL="postgresql://localhost/projectname"
-    5. Restart environment: $ workon projectname
+        1. Run `nano $VIRTUAL_ENV/bin/postactivate`
+        2. Add line: `export DATABASE_URL="postgresql://localhost/projectname"`
+    5. Restart environment: `workon projectname`
 
 2. Initialize and run database migrations
     1. delete the directory named 'migrations'
-    2. $ python manage.py db init
-    3. $ python manage.py db migrate
-    4. $ python manage.py db upgrade
+    2. Run `python manage.py db init`
+    3. Run `python manage.py db migrate`
+    4. Run `python manage.py db upgrade`
 
 3. Setup databases on Heroku
     1. Create databases:
-        1. $ heroku addons:add heroku-postgresql:hobby-dev --app projectname-staging
-        2. $ heroku addons:add heroku-postgresql:hobby-dev --app projectname-production
+        1. Run `heroku addons:add heroku-postgresql:hobby-dev --app projectname-staging`
+        2. Run `heroku addons:add heroku-postgresql:hobby-dev --app projectname-production`
     2. Commit database migration and push to staging and live
-        1. $ git add .
-        2. $ git commit -a -m "Database migrations"
-        3. $ git push staging master
-        4. $ git push production master
+        1. Run `git add .`
+        2. Run `git commit -a -m "Database migrations"`
+        3. Run `git push staging master`
+        4. Run `git push production master`
     2. Run database migrations:
-        1. $ heroku run python manage.py db upgrade --app projectname-staging
-        2. $ heroku run python manage.py db upgrade --app projectname-production
+        1. Run `heroku run python manage.py db upgrade --app projectname-staging`
+        2. Run `heroku run python manage.py db upgrade --app projectname-production`
 
 ### 4. Deploy
 1. Run locally
     1. Open Postgres.app
-    2. $ workon projectname
-    3. $ python manage.py runserver
+    2. Run `workon projectname`
+    3. Run `python manage.py runserver`
     4. Open in your browser: http://localhost:5000/
 
 2. Deploy and run on staging
-    1. Push latest version to staging: $ git push staging master
+    1. Push latest version to staging: `git push staging master`
     2. Open in your browser: https://projectname-staging.herokuapp.com/
 
 3. Deploy and run on production
-    1. Push latest version to production: $ git push production master
+    1. Push latest version to production: `git push production master`
     2. Open in your browser: https://projectname-production.herokuapp.com/
 
 
@@ -116,7 +116,7 @@ That was easy right? You are ready to go modify and built your next killer app. 
 4. Finally: deploy to product ($ git push production master)
 
 ### Working with pip
-When you first start using Flask App Blueprint you install all the required dependencies through pip, by running 'pip install -r requirements.txt'. When you install new packages (by running 'pip install SomePackage'), make sure to also update the requirements.txt file so next time you run 'pip install -r requirements.txt' also the newly installed packages are part of you project. You can do this by running 'pip freeze > requirements.txt'.
+When you first start using Flask App Blueprint you install all the required dependencies through pip, by running `pip install -r requirements.txt`. When you install new packages (by running `pip install SomePackage`), make sure to also update the requirements.txt file so next time you run `pip install -r requirements.txt` also the newly installed packages are part of you project. You can do this by running `pip freeze > requirements.txt`.
 
 More on pip: https://pip.pypa.io/en/stable/user_guide/
 
