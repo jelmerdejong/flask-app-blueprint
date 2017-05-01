@@ -29,7 +29,7 @@ Accelerate your next web project and start with this Flask App Blueprint. For no
     4. $ source /user/local/bin/virtualenvwrapper.sh
 
 3. Clone the repository and create a working directory
-    1. $ git clone git@github.com:jelmerdejong/sab-basic.git
+    1. $ git clone git@github.com:jelmerdejong/flask-app-blueprint.git
     2. $ mv sab-basic projectname
     2. $ cd projectname
 
