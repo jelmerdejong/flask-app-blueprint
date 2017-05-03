@@ -6,7 +6,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <form action="{{ url_for('login') }}" method="post">
+    <form action="{{ url_for('users.login') }}" method="post">
         {{ form.csrf_token }}
         <div class="form-group">
           {{ form.email.label }}
@@ -23,7 +23,7 @@
     <h3>Start your new MVP today!</h3>
     <h4>Flask App Blueprint: focus on your unique idea.</h4>
     <p>With Flask App Blueprint you have a simple to start direclty with your idea, without spending way to much time fixing the basics. Get going, start today.</p>
-    <p><em>Don't have an account yet?</em> <a href="{{ url_for('register') }}">Sign up for free!</a></p>
+    <p><em>Don't have an account yet?</em> <a href="{{ url_for('users.register') }}">Sign up for free!</a></p>
   </div>
 </div>
 

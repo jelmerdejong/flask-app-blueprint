@@ -44,23 +44,23 @@
           <li {% if request.path == url_for('home') %}class="active"{% endif %}>
             <a href="{{ url_for('home') }}">Home</a>
           </li>
-          <li {% if request.path == url_for('all_items') %}class="active"{% endif %}>
-            <a href="{{ url_for('all_items') }}">All Items</a>
+          <li {% if request.path == url_for('items.all_items') %}class="active"{% endif %}>
+            <a href="{{ url_for('items.all_items') }}">All Items</a>
           </li>
-          <li {% if request.path == url_for('add_item') %}class="active"{% endif %}>
-            <a href="{{ url_for('add_item') }}">Add Item</a>
+          <li {% if request.path == url_for('items.add_item') %}class="active"{% endif %}>
+            <a href="{{ url_for('items.add_item') }}">Add Item</a>
           </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{current_user.email}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="{{ url_for('user_profile') }}">My Profile</a></li>
+              <li><a href="{{ url_for('users.user_profile') }}">My Profile</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+              <li><a href="{{ url_for('users.logout') }}">Log Out</a></li>
             </ul>
           </li>
           {% else %}
-          <li><a href="{{ url_for('register') }}">Register</a></li>
-          <li><a href="{{ url_for('login') }}">Log In</a></li>
+          <li><a href="{{ url_for('users.register') }}">Register</a></li>
+          <li><a href="{{ url_for('users.login') }}">Log In</a></li>
           {% endif %}
         </ul>
       </div>

@@ -15,7 +15,7 @@
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       {% if items[0] == NULL %}
       <div class="panel-body">
-        <p>No items are added yet, <a href="{{ url_for('add_item') }}">add a new item</a>.</p>
+        <p>No items are added yet, <a href="{{ url_for('items.add_item') }}">add a new item</a>.</p>
       </div>
       {% else %}
       <table class="table table-striped">

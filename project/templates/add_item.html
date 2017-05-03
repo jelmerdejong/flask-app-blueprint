@@ -5,7 +5,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <form action="{{ url_for('add_item') }}" method="post" name="itemsform">
+    <form action="{{ url_for('items.add_item') }}" method="post" name="itemsform">
         {{ form.csrf_token }}
         <div class="form-group">
           {{ form.name.label }}

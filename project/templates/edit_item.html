@@ -3,7 +3,7 @@
 {% from "_formshelper.html" import render_field %}
 {% block content %}
 
-<form action="{{ url_for('edit_item', items_id=item.Items.id) }}" method="post" name="edititemsform">
+<form action="{{ url_for('items.edit_item', items_id=item.Items.id) }}" method="post" name="edititemsform">
     {{ form.csrf_token }}
     <div class="form-group">
       {{ form.name.label }}
