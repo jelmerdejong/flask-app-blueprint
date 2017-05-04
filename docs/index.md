@@ -1,1 +1,5 @@
+[Getting Started](getting-started.md)
+[Way of Working](way-of-working.md)
+[Technology Stack](stack.md)
 [Git Branch and Commit conventions](git-branch-commit.md)
+[Questions / Feedback](questions-feedback.md)
