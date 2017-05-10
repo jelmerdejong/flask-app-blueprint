@@ -1,7 +1,7 @@
 # project/test_basic.py
 import unittest
 
-from project import app, db
+from project import app, db, mail
 
 
 class BasicTests(unittest.TestCase):
@@ -14,6 +14,8 @@ class BasicTests(unittest.TestCase):
         self.app = app.test_client()
         db.drop_all()
         db.create_all()
+
+        mail.init_app(app)
         self.assertEqual(app.debug, False)
 
     def tearDown(self):

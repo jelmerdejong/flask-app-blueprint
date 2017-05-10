@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_login import current_user, login_required
+from flask_mail import Mail
 import os
 
 
@@ -13,6 +14,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+mail = Mail(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

@@ -1,4 +1,4 @@
-# Flask App Blueprint: the quickest way to get started on your MVP
+# Flask App Blueprint: the fast way to start your MVP or prototype
 Flask App Blueprint will help you get started with an easy to learn, yet powerful technology stack. A stack that you can have up and running in less than 25 minutes, so you can focus on making the real thing. Including registration, login, insert and retrieve info from a database, and have it all deployed on Heroku.
 
 ## Features

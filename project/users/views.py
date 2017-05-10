@@ -4,15 +4,46 @@
 from flask import render_template, Blueprint, request, redirect, url_for, flash, Markup
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, current_user, login_required, logout_user
+from itsdangerous import URLSafeTimedSerializer
+from threading import Thread
+from flask_mail import Message
 from datetime import datetime
 
 from .forms import RegisterForm, LoginForm
-from project import db
+from project import app, db, mail
 from project.models import User
 
 
 # CONFIG
 users_blueprint = Blueprint('users', __name__, template_folder='templates')
+
+
+# HELPERS
+def send_async_email(msg):
+    with app.app_context():
+        mail.send(msg)
+
+
+def send_email(subject, recipients, html_body):
+    msg = Message(subject, recipients=recipients)
+    msg.html = html_body
+    thr = Thread(target=send_async_email, args=[msg])
+    thr.start()
+
+
+def send_confirmation_email(user_email):
+    confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+    confirm_url = url_for(
+        'users.confirm_email',
+        token=confirm_serializer.dumps(user_email, salt='email-confirmation-salt'),
+        _external=True)
+
+    html = render_template(
+        'email_confirmation.html',
+        confirm_url=confirm_url)
+
+    send_email('Confirm Your Email Address', [user_email], html)
 
 
 # ROUTES
@@ -26,9 +57,9 @@ def register():
                 new_user.authenticated = True
                 db.session.add(new_user)
                 db.session.commit()
-                login_user(new_user)
+                send_confirmation_email(new_user.email)
                 message = Markup(
-                    "<strong>Success!</strong> Thanks for registering.")
+                    "<strong>Success!</strong> Thanks for registering. Please check your email to confirm your email address.")
                 flash(message, 'success')
                 return redirect(url_for('home'))
             except IntegrityError:
@@ -67,6 +98,29 @@ def login():
 @login_required
 def user_profile():
     return render_template('user_profile.html')
+
+
+@users_blueprint.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        email = confirm_serializer.loads(token, salt='email-confirmation-salt', max_age=3600)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'error')
+        return redirect(url_for('users.login'))
+
+    user = User.query.filter_by(email=email).first()
+
+    if user.email_confirmed:
+        flash('Account already confirmed. Please login.', 'info')
+    else:
+        user.email_confirmed = True
+        user.email_confirmed_on = datetime.now()
+        db.session.add(user)
+        db.session.commit()
+        flash('Thank you for confirming your email address!')
+
+    return redirect(url_for('home'))
 
 
 @users_blueprint.route('/logout')
