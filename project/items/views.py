@@ -1,9 +1,6 @@
 # project/items/views.py
 
-#################
-#### imports ####
-#################
-
+# IMPORTS
 from flask import render_template, Blueprint, request, redirect, url_for, flash, Markup
 from flask_login import current_user, login_required
 from project import db
@@ -11,18 +8,11 @@ from project.models import Items, User
 from .forms import ItemsForm, EditItemsForm
 
 
-
-################
-#### config ####
-################
-
+# CONFIG
 items_blueprint = Blueprint('items', __name__, template_folder='templates')
 
 
-################
-#### routes ####
-################
-
+# ROUTES
 @items_blueprint.route('/all_items', methods=['GET', 'POST'])
 @login_required
 def all_items():
@@ -38,15 +28,18 @@ def add_item():
     if request.method == 'POST':
         if form.validate_on_submit():
             try:
-                new_item = Items(form.name.data, form.notes.data, current_user.id)
+                new_item = Items(form.name.data, form.notes.data,
+                                 current_user.id)
                 db.session.add(new_item)
                 db.session.commit()
-                message = Markup("<strong>Well done!</strong> Item added successfully!")
+                message = Markup(
+                    "<strong>Well done!</strong> Item added successfully!")
                 flash(message, 'success')
                 return redirect(url_for('home'))
             except:
                 db.session.rollback()
-                message = Markup("<strong>Oh snap!</strong>! Unable to add item.")
+                message = Markup(
+                    "<strong>Oh snap!</strong>! Unable to add item.")
                 flash(message, 'danger')
     return render_template('add_item.html', form=form)
 
@@ -70,11 +63,13 @@ def edit_item(items_id):
                         return redirect(url_for('home'))
                     except:
                         db.session.rollback()
-                        message = Markup("<strong>Error!</strong> Unable to edit item.")
+                        message = Markup(
+                            "<strong>Error!</strong> Unable to edit item.")
                         flash(message, 'danger')
             return render_template('edit_item.html', item=item_with_user, form=form)
         else:
-            message = Markup("<strong>Error!</strong> Incorrect permissions to access this item.")
+            message = Markup(
+                "<strong>Error!</strong> Incorrect permissions to access this item.")
             flash(message, 'danger')
     else:
         message = Markup("<strong>Error!</strong> Item does not exist.")

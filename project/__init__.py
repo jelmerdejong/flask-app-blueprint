@@ -1,22 +1,13 @@
-#################
-#### imports ####
-#################
-
-from flask import Flask, render_template, flash, redirect, request, url_for, Markup
+# IMPORTS
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy import func, and_
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
-from flask_login import login_user, current_user, login_required, logout_user
-import os, datetime
-from datetime import datetime
+from flask_login import current_user, login_required
+import os
 
 
-################
-#### config ####
-################
-
+# CONFIG
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object(os.environ['APP_SETTINGS'])
 
@@ -29,23 +20,21 @@ login_manager.login_view = "users.login"
 
 from project.models import User, Items
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.filter(User.id == int(user_id)).first()
 
 
-####################
-#### blueprints ####
-####################
-
+# BLUEPRINTS
 from project.users.views import users_blueprint
 from project.items.views import items_blueprint
 
-# register the blueprints
 app.register_blueprint(users_blueprint)
 app.register_blueprint(items_blueprint)
 
 
+# ROUTES
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def home():

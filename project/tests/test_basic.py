@@ -1,18 +1,11 @@
 # project/test_basic.py
-
-
-import os
 import unittest
 
 from project import app, db
 
+
 class BasicTests(unittest.TestCase):
-
-    ############################
-    #### setup and teardown ####
-    ############################
-
-    # executed prior to each test
+    # SETUP AND TEARDOWN
     def setUp(self):
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
@@ -23,15 +16,10 @@ class BasicTests(unittest.TestCase):
         db.create_all()
         self.assertEqual(app.debug, False)
 
-    # executed after each test
     def tearDown(self):
         pass
 
-
-    ########################
-    #### helper methods ####
-    ########################
-
+    # HELPER METHODS
     def register(self, email, password, confirm):
         return self.app.post(
             '/register',
@@ -52,28 +40,32 @@ class BasicTests(unittest.TestCase):
             follow_redirects=True
         )
 
-
-    ###############
-    #### tests ####
-    ###############
-
+    # TESTS
     def test_main_page(self):
         response = self.app.get('/', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
     def test_valid_user_registration(self):
-        response = self.register('test11@test11.com', 'PasswIsGood13#$', 'PasswIsGood13#$')
+        response = self.register('test11@test11.com',
+                                 'PasswIsGood13#$',
+                                 'PasswIsGood13#$')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<strong>Success!</strong> Thanks for registering.', response.data)
 
     def test_invalid_user_registration_different_passwords(self):
-        response = self.register('test22@test22.com', 'Pass129', 'Different')
+        response = self.register('test22@test22.com',
+                                 'Pass129',
+                                 'Different')
         self.assertIn(b'Field must be equal to password.', response.data)
 
     def test_invalid_user_registration_duplicate_email(self):
-        response = self.register('test33@test33.com', '%^#@12sa', '%^#@12sa')
+        response = self.register('test33@test33.com',
+                                 '%^#@12sa',
+                                 '%^#@12sa')
         self.assertEqual(response.status_code, 200)
-        response = self.register('test33@test33.com', '89298dka', '89298dka')
+        response = self.register('test33@test33.com',
+                                 '89298dka',
+                                 '89298dka')
         self.assertIn(b'<strong>Error!</strong> Unable to process registration.', response.data)
 
 

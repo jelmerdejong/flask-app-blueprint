@@ -1,30 +1,21 @@
 # project/users/views.py
 
-#################
-#### imports ####
-#################
-
+# IMPORTS
 from flask import render_template, Blueprint, request, redirect, url_for, flash, Markup
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, current_user, login_required, logout_user
 from datetime import datetime
 
 from .forms import RegisterForm, LoginForm
-from project import db, app
+from project import db
 from project.models import User
 
 
-################
-#### config ####
-################
-
+# CONFIG
 users_blueprint = Blueprint('users', __name__, template_folder='templates')
 
 
-################
-#### routes ####
-################
-
+# ROUTES
 @users_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
@@ -36,12 +27,14 @@ def register():
                 db.session.add(new_user)
                 db.session.commit()
                 login_user(new_user)
-                message = Markup("<strong>Success!</strong> Thanks for registering.")
+                message = Markup(
+                    "<strong>Success!</strong> Thanks for registering.")
                 flash(message, 'success')
                 return redirect(url_for('home'))
             except IntegrityError:
                 db.session.rollback()
-                message = Markup("<strong>Error!</strong> Unable to process registration.")
+                message = Markup(
+                    "<strong>Error!</strong> Unable to process registration.")
                 flash(message, 'danger')
     return render_template('register.html', form=form)
 
@@ -59,11 +52,13 @@ def login():
                 db.session.add(user)
                 db.session.commit()
                 login_user(user)
-                message = Markup("<strong>Welcome back!</strong> You are now successfully logged in.")
+                message = Markup(
+                    "<strong>Welcome back!</strong> You are now successfully logged in.")
                 flash(message, 'success')
                 return redirect(url_for('home'))
             else:
-                message = Markup("<strong>Error!</strong> Incorrect login credentials.")
+                message = Markup(
+                    "<strong>Error!</strong> Incorrect login credentials.")
                 flash(message, 'danger')
     return render_template('login.html', form=form)
 
