@@ -54,10 +54,16 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{current_user.email}} <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="{{ url_for('users.user_profile') }}">My Profile</a></li>
+              {% if current_user.role == "admin" %}
+              <li><a href="{{ url_for('users.admin_view_users') }}">View Users (Admin)</a></li>
+              {% endif %}
               <li role="separator" class="divider"></li>
               <li><a href="{{ url_for('users.logout') }}">Log Out</a></li>
             </ul>
           </li>
+
+
+
           {% else %}
           <li><a href="{{ url_for('users.register') }}">Register</a></li>
           <li><a href="{{ url_for('users.login') }}">Log In</a></li>

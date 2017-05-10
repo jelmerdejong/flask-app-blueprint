@@ -15,9 +15,10 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=True)
     last_logged_in = db.Column(db.DateTime, nullable=True)
     current_logged_in = db.Column(db.DateTime, nullable=True)
+    role = db.Column(db.String, default='user')
     items = db.relationship('Items', backref='user', lazy='dynamic')
 
-    def __init__(self, email, password, email_confirmation_sent_on=None):
+    def __init__(self, email, password, email_confirmation_sent_on=None, role='user'):
         self.email = email
         self.password = password
         self.authenticated = False
@@ -27,6 +28,7 @@ class User(db.Model):
         self.registered_on = datetime.now()
         self.last_logged_in = None
         self.current_logged_in = datetime.now()
+        self.role = role
 
     @hybrid_property
     def password(self):
@@ -49,6 +51,11 @@ class User(db.Model):
     def is_active(self):
         """Always True, as all users are active."""
         return True
+
+    @property
+    def is_email_confirmed(self):
+        """Return True if the user confirmed their email address."""
+        return self.email_confirmed
 
     @property
     def is_anonymous(self):

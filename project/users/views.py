@@ -1,7 +1,7 @@
 # project/users/views.py
 
 # IMPORTS
-from flask import render_template, Blueprint, request, redirect, url_for, flash, Markup
+from flask import render_template, Blueprint, request, redirect, url_for, flash, Markup, abort
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, current_user, login_required, logout_user
 from itsdangerous import URLSafeTimedSerializer
@@ -92,16 +92,22 @@ def login():
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user is not None and user.is_correct_password(form.password.data):
-                user.authenticated = True
-                user.last_logged_in = user.current_logged_in
-                user.current_logged_in = datetime.now()
-                db.session.add(user)
-                db.session.commit()
-                login_user(user)
-                message = Markup(
-                    "<strong>Welcome back!</strong> You are now successfully logged in.")
-                flash(message, 'success')
-                return redirect(url_for('home'))
+                if user.is_email_confirmed is False:
+                    message = Markup(
+                        "<strong>Error!</strong> Please confirm your email address.")
+                    flash(message, 'danger')
+                    return redirect(url_for('users.login'))
+                if user.is_email_confirmed is True:
+                    user.authenticated = True
+                    user.last_logged_in = user.current_logged_in
+                    user.current_logged_in = datetime.now()
+                    db.session.add(user)
+                    db.session.commit()
+                    login_user(user)
+                    message = Markup(
+                        "<strong>Welcome back!</strong> You are now successfully logged in.")
+                    flash(message, 'success')
+                    return redirect(url_for('home'))
             else:
                 message = Markup(
                     "<strong>Error!</strong> Incorrect login credentials.")
@@ -183,6 +189,17 @@ def reset_with_token(token):
         return redirect(url_for('users.login'))
 
     return render_template('reset_password_with_token.html', form=form, token=token)
+
+
+@users_blueprint.route('/admin_view_users')
+@login_required
+def admin_view_users():
+    if current_user.role != 'admin':
+        abort(403)
+    else:
+        users = User.query.order_by(User.id).all()
+        return render_template('admin_view_users.html', users=users)
+    return redirect(url_for('stocks.watch_list'))
 
 
 @users_blueprint.route('/logout')
