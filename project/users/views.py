@@ -199,7 +199,6 @@ def admin_view_users():
     else:
         users = User.query.order_by(User.id).all()
         return render_template('admin_view_users.html', users=users)
-    return redirect(url_for('stocks.watch_list'))
 
 
 @users_blueprint.route('/logout')
