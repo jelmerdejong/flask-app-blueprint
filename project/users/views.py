@@ -92,7 +92,7 @@ def login():
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user is not None and user.is_correct_password(form.password.data):
-                if user.is_email_confirmed is False:
+                if user.is_email_confirmed is not True:
                     message = Markup(
                         "<strong>Error!</strong> Please confirm your email address.")
                     flash(message, 'danger')
