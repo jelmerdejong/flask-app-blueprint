@@ -22,6 +22,8 @@ Accelerate your next web project and start with this Flask App Blueprint. For no
         1. Run `nano $VIRTUAL_ENV/bin/postactivate`
         2. Add (and modify) the following line: `cd ~/path/to/your/project`
         3. Add second line: `export APP_SETTINGS="config.DevelopmentConfig"`
+        4. Generate a secure key ([for example here](https://randomkeygen.com/))
+        5. Add third line" `export SECRET_KEY="your-secret-key"`
 
 5. Install Packages
     1. Run `pip install -r requirements.txt`
