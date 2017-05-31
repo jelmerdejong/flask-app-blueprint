@@ -29,7 +29,7 @@
         {% else %}
           <div class="panel-body">First time logged in. Welcome!</div>
         {% endif %}
-        {% if current_user.email_confirmed %}
+        {% if current_user.email_confirmed_on != None %}
           <div class="panel-body">Email confirmed on: {{ current_user.email_confirmed_on.strftime("%A %B %d, %Y") }}</div>
         {% else %}
           <div class="panel-body">Email has not been confirmed!</div>
