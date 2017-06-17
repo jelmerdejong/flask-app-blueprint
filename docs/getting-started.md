@@ -7,16 +7,18 @@ Accelerate your next web project and start with this Flask App Blueprint. For no
 
 2. Install virtualenvwrapper
     1. Run `sudo pip install virtualenvwrapper`
-    2. Run `export WORKON_HOME=~/Envs`
-    3. Run `mkdir -p $WORKON_HOME`
-    4. Run `source /user/local/bin/virtualenvwrapper.sh`
 
-3. Clone the repository and create a working directory
+3. Add the following lines to your bash profile:
+  * `export WORKON_HOME=~/Envs`
+  * `mkdir -p $WORKON_HOME`
+  * `source /user/local/bin/virtualenvwrapper.sh`
+
+4. Clone the repository and create a working directory
     1. Run `git clone git@github.com:jelmerdejong/flask-app-blueprint.git`
     2. Run `mv sab-basic projectname`
     2. Run `cd projectname`
 
-4. Create virtual environment
+5. Create virtual environment
     1. Run `mkvirtualenv projectname`
     2. Update postactate file:
         1. Run `nano $VIRTUAL_ENV/bin/postactivate`
@@ -25,7 +27,7 @@ Accelerate your next web project and start with this Flask App Blueprint. For no
         4. Generate a secure key ([for example here](https://randomkeygen.com/))
         5. Add third line" `export SECRET_KEY="your-secret-key"`
 
-5. Install Packages
+6. Install Packages
     1. Run `pip install -r requirements.txt`
 
 ## 2. Create GitHub and Heroku App and Repositories
