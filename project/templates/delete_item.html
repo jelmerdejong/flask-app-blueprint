@@ -1,0 +1,26 @@
+
+{% extends "_base.html" %}
+{% block title %}Delete Item{% endblock %}
+{% block content %}
+
+<form action="{{ url_for('items.delete_item', items_id=items[0].id) }}" method="post" name="deleteitemsform">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.notes }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    <input type="submit" value="Delete Item" class="btn btn-lg btn-success">
+</form>
+
+{% endblock %}

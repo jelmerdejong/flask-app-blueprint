@@ -21,6 +21,7 @@
       <td>
         {{ item.notes }}
         <a href="{{ url_for('items.edit_item', items_id=item.id) }}">Edit</a>
+        &nbsp<a href="{{ url_for('items.delete_item', items_id=item.id) }}">Delete</a>
       </td>
     </tr>
     {% endfor %}
