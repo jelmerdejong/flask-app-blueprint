@@ -9,9 +9,6 @@ jobs:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.6.1
-      # Environment variable for all commands executed in the primary container
-        environment:
-          APP_SETTINGS: DevelopmentConfig
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
