@@ -3,21 +3,21 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
 
 ## 0. Getting your machine ready, the prerequisites
 1. Install XCode
-  1. Start with installing XCode if you haven't already. You can find XCode for free in the Apple Store
-  2. You also need to install the Command Line Tools (CLT) of Xcode, do this by opening your Terminal and type: `xcode-select --install`
-  3. Follow the steps presented by the wizard
+    1. Start with installing XCode if you haven't already. You can find XCode for free in the Apple Store
+    2. You also need to install the Command Line Tools (CLT) of Xcode, do this by opening your Terminal and type: `xcode-select --install`
+    3. Follow the steps presented by the wizard
 
 2. Install HomeBrew
-  1. HomeBrew os a package manager for Mac OSX, install it by opening your Terminal and type: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-  2. Add the following line to your bash profile:
-    1. Open your bash profile by typing `nano ~/.bash_profile`
-    2. Add the line: `export PATH=/usr/local/bin:$PATH`
+    1. HomeBrew os a package manager for Mac OSX, install it by opening your Terminal and type: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+    2. Add the following line to your bash profile:
+        1. Open your bash profile by typing `nano ~/.bash_profile`
+        2. Add the line: `export PATH=/usr/local/bin:$PATH`
 
 3. Install Python3 with HomeBrew
-  1. Type in your Terminal `brew install python3`
+    1. Type in your Terminal `brew install python3`
 
 4. Install PIP (a package manager for Python)
-  1. In your Terminal type `sudo easy_install pip`
+    1. In your Terminal type `sudo easy_install pip`
 
 ## 1. Setup your development environment
 1. Install virtualenv
