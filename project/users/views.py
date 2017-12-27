@@ -93,10 +93,11 @@ def login():
             user = User.query.filter_by(email=form.email.data).first()
             if user is not None and user.is_correct_password(form.password.data):
                 if user.is_email_confirmed is not True:
-                    message = Markup(
-                        "<strong>Error!</strong> Please confirm your email address.")
-                    flash(message, 'danger')
-                    return redirect(url_for('users.login'))
+                    user.authenticated = True
+                    db.session.add(user)
+                    db.session.commit()
+                    login_user(user)
+                    return redirect(url_for('users.resend_email_confirmation'), )
                 if user.is_email_confirmed is True:
                     user.authenticated = True
                     user.last_logged_in = user.current_logged_in
@@ -151,14 +152,17 @@ def reset():
         try:
             user = User.query.filter_by(email=form.email.data).first_or_404()
         except:
-            flash('Invalid email address!', 'error')
+            message = Markup(
+                "Invalid email address!")
+            flash(message, 'danger')
             return render_template('password_reset_email.html', form=form)
-
         if user.email_confirmed:
             send_password_reset_email(user.email)
             flash('Please check your email for a password reset link.', 'success')
         else:
-            flash('Your email address must be confirmed before attempting a password reset.', 'error')
+            message = Markup(
+                "Your email address must be confirmed before attempting a password reset.")
+            flash(message, 'danger')
         return redirect(url_for('users.login'))
 
     return render_template('password_reset_email.html', form=form)
@@ -228,3 +232,23 @@ def user_password_change():
             return redirect(url_for('users.user_profile'))
 
     return render_template('password_change.html', form=form)
+
+@users_blueprint.route('/resend_confirmation')
+@login_required
+def resend_email_confirmation():
+    try:
+        send_confirmation_email(current_user.email)
+        flash('Email sent to confirm your email address.  Please check your email!', 'success')
+        user = current_user
+        user.authenticated = False
+        db.session.add(user)
+        db.session.commit()
+        logout_user()
+    except IntegrityError:
+        flash('Error!  Unable to send email to confirm your email address.', 'error')
+        user = current_user
+        user.authenticated = False
+        db.session.add(user)
+        db.session.commit()
+        logout_user()
+    return redirect(url_for('users.login'))
