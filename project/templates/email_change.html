@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+{% block title %}Flask App Blueprint{% endblock %}
+{% from "_formshelper.html" import render_field %}
+
+{% block content %}
+
+<div class="user-profile">
+  <div class="page-header">
+    <h2>Email Change</h2>
+  </div>
+
+  <form action="{{ url_for('users.user_email_change') }}" method="POST">
+  {{ form.csrf_token }}
+    <dl>
+      {{ render_field(form.email, placeholder="Enter New Email address") }}
+    </dl>
+    <button class="btn btn-sm btn-success" type="submit">Update</button>
+  </form>
+</div>
+
+{% endblock %}

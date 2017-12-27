@@ -233,6 +233,7 @@ def user_password_change():
 
     return render_template('password_change.html', form=form)
 
+
 @users_blueprint.route('/resend_confirmation')
 @login_required
 def resend_email_confirmation():
@@ -252,3 +253,29 @@ def resend_email_confirmation():
         db.session.commit()
         logout_user()
     return redirect(url_for('users.login'))
+
+
+@users_blueprint.route('/email_change', methods=["GET", "POST"])
+@login_required
+def user_email_change():
+    form = EmailForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            try:
+                user_check = User.query.filter_by(email=form.email.data).first()
+                if user_check is None:
+                    user = current_user
+                    user.email = form.email.data
+                    user.email_confirmed = False
+                    user.email_confirmed_on = None
+                    user.email_confirmation_sent_on = datetime.now()
+                    db.session.add(user)
+                    db.session.commit()
+                    send_confirmation_email(user.email)
+                    flash('Email changed!  Please confirm your new email address (link sent to new email).', 'success')
+                    return redirect(url_for('users.user_profile'))
+                else:
+                    flash('Sorry, that email already exists!', 'danger')
+            except IntegrityError:
+                flash('Error! That email already exists!', 'danger')
+    return render_template('email_change.html', form=form)

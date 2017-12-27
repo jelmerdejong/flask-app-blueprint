@@ -1,14 +1,14 @@
 # Getting Started
-Accelerate your next web project and start with this Flask App Blueprint. This Getting Started how-to is for written for OSX.
+Accelerate your next web project and start with this Flask App Blueprint. This Getting Started how-to is for written for OS X / macOS.
 
 ## 0. Getting your machine ready, the prerequisites
-1. Install XCode
-    1. Start with installing XCode if you haven't already. You can find XCode for free in the Apple Store
+1. Install Xcode
+    1. Start with installing Xcode if you haven't already. You can find Xcode for free in the Apple Store
     2. You also need to install the Command Line Tools (CLT) of Xcode, do this by opening your Terminal and type: `xcode-select --install`
     3. Follow the steps presented by the wizard
 
 2. Install HomeBrew
-    1. HomeBrew os a package manager for Mac OSX, install it by opening your Terminal and type: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+    1. HomeBrew os a package manager for macOS, install it by opening your Terminal and type: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
     2. Add the following line to your bash profile:
         1. Open your bash profile by typing `nano ~/.bash_profile`
         2. Add the line: `export PATH=/usr/local/bin:$PATH`
@@ -33,7 +33,7 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
 
 4. Clone the repository and create a working directory
     1. Run `git clone git@github.com:jelmerdejong/flask-app-blueprint.git`
-    2. Run `mv sab-basic projectname`
+    2. Run `mv flask-app-blueprint projectname`
     2. Run `cd projectname`
 
 5. Create virtual environment

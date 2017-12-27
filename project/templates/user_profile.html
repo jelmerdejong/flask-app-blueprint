@@ -14,11 +14,8 @@
 
       <div class="panel panel-info">
         <div class="panel-heading">Account Actions</div>
-        <div class="panel-body"><a href="#">Change Email</a></div>
+        <div class="panel-body"><a href="{{ url_for('users.user_email_change') }}">Change Email</a></div>
         <div class="panel-body"><a href="{{ url_for('users.user_password_change') }}">Change Password</a></div>
-        {% if not current_user.email_confirmed %}
-          <div class="panel-body"><a href="#">Resend Email Confirmation</a></div>
-        {% endif %}
       </div>
 
       <div class="panel panel-info">
