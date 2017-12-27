@@ -51,7 +51,7 @@ def send_password_reset_email(user_email):
 
     password_reset_url = url_for(
         'users.reset_with_token',
-        token = password_reset_serializer.dumps(user_email, salt='password-reset-salt'),
+        token=password_reset_serializer.dumps(user_email, salt='password-reset-salt'),
         _external=True)
 
     html = render_template(
@@ -212,3 +212,19 @@ def logout():
     message = Markup("<strong>Goodbye!</strong> You are now logged out.")
     flash(message, 'info')
     return redirect(url_for('users.login'))
+
+
+@users_blueprint.route('/password_change', methods=["GET", "POST"])
+@login_required
+def user_password_change():
+    form = PasswordForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = current_user
+            user.password = form.password.data
+            db.session.add(user)
+            db.session.commit()
+            flash('Password has been updated!', 'success')
+            return redirect(url_for('users.user_profile'))
+
+    return render_template('password_change.html', form=form)

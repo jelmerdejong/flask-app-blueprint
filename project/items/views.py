@@ -76,6 +76,7 @@ def edit_item(items_id):
         flash(message, 'danger')
     return redirect(url_for('home'))
 
+
 @items_blueprint.route('/delete_item/<items_id>', methods=['GET', 'POST'])
 @login_required
 def delete_item(items_id):
