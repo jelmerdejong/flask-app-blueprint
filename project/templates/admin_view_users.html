@@ -4,34 +4,33 @@
 
 {% block content %}
 
-<div class="row">
-  <table class="table table-striped" id="admin_list_of_users">
-    <thead>
+<table class="table table-stripe">
+  <thead>
+    <tr>
+      <th class="border-top-0">User ID</th>
+      <th class="border-top-0">Email</th>
+      <th class="border-top-0">Role</th>
+      <th class="border-top-0">Registration Date</th>
+      <th class="border-top-0">Email Confirmed?</th>
+      <th class="border-top-0">Email Confirmed On</th>
+      <th class="border-top-0">Last Login</th>
+      </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
       <tr>
-        <th>User ID</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Registration Date</th>
-        <th>Email Confirmed?</th>
-        <th>Email Confirmed On</th>
-        <th>Last Login</th>
-        </tr>
-    </thead>
-    <tbody>
-      {% for user in users %}
-        <tr>
-          <td> {{ user.id }} </td>
-          <td> {{ user.email }} </td>
-          <td> {{ user.role }} </td>
-          <td> {{ user.registered_on }} </td>
-          <td> {{ user.email_confirmed }} </td>
-          <td> {{ user.email_confirmed_on }} </td>
-          <td> {{ user.last_logged_in }} </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+        <td> {{ user.id }} </td>
+        <td> {{ user.email }} </td>
+        <td> {{ user.role }} </td>
+        <td> {{ user.registered_on }} </td>
+        <td> {{ user.email_confirmed }} </td>
+        <td> {{ user.email_confirmed_on }} </td>
+        <td> {{ user.last_logged_in }} </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 
 
 {% endblock %}

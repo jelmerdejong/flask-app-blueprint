@@ -1,43 +1,31 @@
 {% extends "_base.html" %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-<div class="panel-group" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title pull-left">
-        <a role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <span class="glyphicon glyphicon-inbox" aria-hidden="true"></span> Items
-        </a>
-      </h4>
-      <span class="panel-title pull-right">show count of items</span>
-      <div class="clearfix"></div>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      {% if items[0] == NULL %}
-      <div class="panel-body">
-        <p>No items are added yet, <a href="{{ url_for('items.add_item') }}">add a new item</a>.</p>
-      </div>
-      {% else %}
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in items %}
-          <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ item.notes }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% endif %}
-    </div>
+
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">My Items</h4>
+    {% if items[0] == NULL %}
+    <p class="card-text">No items are added yet, <a href="{{ url_for('items.add_item') }}">add a new item</a>.</p>
+    {% else %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.notes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
   </div>
 </div>
-
 
 {% endblock %}

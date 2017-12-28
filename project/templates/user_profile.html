@@ -4,36 +4,36 @@
 
 {% block content %}
 
-
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="panel panel-primary">
-        <div class="panel-heading">Email Address</div>
-        <div class="panel-body">{{current_user.email}}</div>
-      </div>
-
-      <div class="panel panel-info">
-        <div class="panel-heading">Account Actions</div>
-        <div class="panel-body"><a href="{{ url_for('users.user_email_change') }}">Change Email</a></div>
-        <div class="panel-body"><a href="{{ url_for('users.user_password_change') }}">Change Password</a></div>
-      </div>
-
-      <div class="panel panel-info">
-        <div class="panel-heading">Statistics</div>
-        <div class="panel-body">Member since: {{ current_user.registered_on.strftime("%A %B %d, %Y") }}</div>
-        {% if current_user.last_logged_in != None %}
-          <div class="panel-body">Last Logged In: {{ current_user.last_logged_in.strftime("%A %B %d, %Y") }}</div>
-        {% else %}
-          <div class="panel-body">First time logged in. Welcome!</div>
-        {% endif %}
-        {% if current_user.email_confirmed_on != None %}
-          <div class="panel-body">Email confirmed on: {{ current_user.email_confirmed_on.strftime("%A %B %d, %Y") }}</div>
-        {% else %}
-          <div class="panel-body">Email has not been confirmed!</div>
-        {% endif %}
-      </div>
-    </div>
+<div class="card mb-3" style="max-width: 30rem;">
+  <div class="card-header text-white bg-primary mb-3">Email Address</div>
+  <div class="card-body">
+    <p class="card-text">{{current_user.email}}</p>
   </div>
+</div>
 
+<div class="card mb-3" style="max-width: 30rem;">
+  <div class="card-header bg-light mb-3">Account Actions</div>
+  <div class="card-body">
+    <p class="card-text"><a href="{{ url_for('users.user_email_change') }}">Change Email</a></p>
+    <p class="card-text"><a href="{{ url_for('users.user_password_change') }}">Change Password</a></p>
+  </div>
+</div>
+
+<div class="card mb-3" style="max-width: 30rem;">
+  <div class="card-header bg-light mb-3">Statistics</div>
+  <div class="card-body">
+    <p class="card-text">Member since: {{ current_user.registered_on.strftime("%A %B %d, %Y") }}</a></p>
+    {% if current_user.last_logged_in != None %}
+    <p class="card-text">Last Logged In: {{ current_user.last_logged_in.strftime("%A %B %d, %Y") }}</p>
+    {% else %}
+    <p class="card-text">First time logged in. Welcome!</p>
+    {% endif %}
+    {% if current_user.email_confirmed_on != None %}
+    <p class="card-text">Email confirmed on: {{ current_user.email_confirmed_on.strftime("%A %B %d, %Y") }}</p>
+    {% else %}
+    <p class="card-text">Email has not been confirmed!</p>
+    {% endif %}
+  </div>
+</div>
 
 {% endblock %}

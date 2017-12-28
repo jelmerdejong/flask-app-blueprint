@@ -1,131 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}">
-
-    <!-- Bootstrap -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script>
-	  $(function() {
-		    $( ".dtpick" ).datepicker({ dateFormat: 'yy-mm-dd'});
-	  });
-	  </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   </head>
   <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="{{ url_for('home') }}">
-            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Flask App Blueprint
-          </a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{{ url_for('home') }}">
+          <img src="{{ url_for('static', filename='images/favicon.png') }}" width="30" height="30" class="d-inline-block align-top" alt="Flask App Blueprint">
+          Flask App Blueprint
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
           {% if current_user.is_authenticated %}
-          <li {% if request.path == url_for('home') %}class="active"{% endif %}>
-            <a href="{{ url_for('home') }}">Home</a>
+          <li class="nav-item {% if request.path == url_for('home') %}active{% endif %}">
+            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
           </li>
-          <li {% if request.path == url_for('items.all_items') %}class="active"{% endif %}>
-            <a href="{{ url_for('items.all_items') }}">All Items</a>
+          <li class="nav-item {% if request.path == url_for('items.all_items') %}active{% endif %}">
+            <a class="nav-link" href="{{ url_for('items.all_items') }}">All Items</a>
           </li>
-          <li {% if request.path == url_for('items.add_item') %}class="active"{% endif %}>
-            <a href="{{ url_for('items.add_item') }}">Add Item</a>
+          <li class="nav-item {% if request.path == url_for('items.add_item') %}active{% endif %}">
+            <a class="nav-link" href="{{ url_for('items.add_item') }}">Add Items</a>
           </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{current_user.email}} <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="{{ url_for('users.user_profile') }}">My Profile</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{current_user.email}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{ url_for('users.user_profile') }}">My Profile</a>
               {% if current_user.role == "admin" %}
-              <li><a href="{{ url_for('users.admin_view_users') }}">View Users (Admin)</a></li>
+              <a class="dropdown-item" href="{{ url_for('users.admin_view_users') }}">View Users (Admin)</a>
               {% endif %}
-              <li role="separator" class="divider"></li>
-              <li><a href="{{ url_for('users.logout') }}">Log Out</a></li>
-            </ul>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{{ url_for('users.logout') }}">Log Out</a>
+            </div>
           </li>
-
-
-
           {% else %}
-          <li><a href="{{ url_for('users.register') }}">Register</a></li>
-          <li><a href="{{ url_for('users.login') }}">Log In</a></li>
+          <li class="nav-item {% if request.path == url_for('users.register') %}active{% endif %}">
+            <a class="nav-link" href="{{ url_for('users.register') }}">Register</a>
+          </li>
+          <li class="nav-item {% if request.path == url_for('users.login') %}active{% endif %}">
+            <a class="nav-link" href="{{ url_for('users.login') }}">Log In</a>
+          </li>
           {% endif %}
         </ul>
       </div>
     </nav>
 
-    <!-- flash messages -->
-    {% for success_message in get_flashed_messages(category_filter=["success"]) %}
-    <div class="container">
-      <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div class="container mt-4">
+      {% for primary_message in get_flashed_messages(category_filter=["primary"]) %}
+      <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        {{ primary_message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% for secondary_message in get_flashed_messages(category_filter=["secondary"]) %}
+      <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+        {{ secondary_message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% for success_message in get_flashed_messages(category_filter=["success"]) %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ success_message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>
-    {% endfor %}
-    {% for info_message in get_flashed_messages(category_filter=["info"]) %}
-    <div class="container">
-      <div class="alert alert-info alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      {% endfor %}
+      {% for danger_message in get_flashed_messages(category_filter=["danger"]) %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ danger_message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% for warning_message in get_flashed_messages(category_filter=["warning"]) %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ warning_message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% for info_message in get_flashed_messages(category_filter=["info"]) %}
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
         {{ info_message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-    {% for error_message in get_flashed_messages(category_filter=["warning"]) %}
-    <div class="container">
-      <div class="alert alert-warning alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        {{ error_message }}
-      </div>
-    </div>
-    {% endfor %}
-    {% for error_message in get_flashed_messages(category_filter=["danger"]) %}
-    <div class="container">
-      <div class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        {{ error_message }}
-      </div>
-    </div>
-    {% endfor %}
 
-
-
-    <!-- content -->
     <div class="container">
-      <div class="page-header">
+      <div class="mt-5">
         <h1>{{ self.title() }}</h1>
+        <hr>
       </div>
       {% block content %}{% endblock %}
     </div>
 
     <footer>
       <div class="container" style="margin-top:250px">
-        <ul class="list-inline text-center">
-          <li>About</li>
-          <li>FAQ</li>
-          <li>Contact / Feedback</li>
+        <ul class="nav justify-content-center">
+          <li class="nav-item"><a class="nav-link active" href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">Contact / Feedback</a></li>
         </ul>
-        <p class="text-center">Created by Flask App Blueprint.</p>
+        <p class="text-center"><a href="https://github.com/jelmerdejong/flask-app-blueprint">Created by Flask App Blueprint.</a></p>
       </div>
     </footer>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
   </body>
 </html>

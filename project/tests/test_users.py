@@ -136,7 +136,7 @@ class UserTests(unittest.TestCase):
         response = self.login('confirmed@flaskappblueprint.com', 'C0nFirmed!')
         response = self.app.get('/email_change')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Email Change', response.data)
+        self.assertIn(b'Change Email Address', response.data)
 
     def test_change_email_address(self):
         self.create_email_confirmed_user()
@@ -156,7 +156,7 @@ class UserTests(unittest.TestCase):
         response = self.app.post('/email_change', data=dict(email='confirmed@flaskappblueprint.com'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Sorry, that email already exists!', response.data)
-        self.assertIn(b'Email Change', response.data)
+        self.assertIn(b'Change Email Address', response.data)
 
     def test_change_email_without_logging_in(self):
         response = self.app.get('/email_change')
@@ -174,7 +174,7 @@ class UserTests(unittest.TestCase):
         response = self.login('confirmed@flaskappblueprint.com', 'C0nFirmed!')
         response = self.app.get('/password_change')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Password Change', response.data)
+        self.assertIn(b'Change Password', response.data)
 
     def test_change_password(self):
         self.create_email_confirmed_user()
