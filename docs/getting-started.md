@@ -48,7 +48,7 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
 6. Install Packages
     1. Run `pip install -r requirements.txt`
 
-## 2. Create GitHub and Heroku App and Repositories
+## 2. Setup Github, Heroku, and Mandrill
 1. Setup Github Repository
     1. Create a new repostitory in your Github account
     2. Change the remote origin to point to your new repository: `git remote set-url origin https://github.com/USERNAME/NEW_REPO.git`
@@ -65,6 +65,12 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
     1. Run `heroku create projectname-production`
     2. Run `git remote add production https://git.heroku.com/projectname-production.git`
     3. Run `heroku config:set APP_SETTINGS=config.ProductionConfig --remote production`
+
+5. Create an account on [Mandrill](https://www.mandrill.com/)
+    1. Run `nano $VIRTUAL_ENV/bin/postactivate`
+    2. Add (and modify) the following line: `export MAIL_USERNAME="Your SMTP Username"`
+    2. Add (and modify) the following line: `export MAIL_PASSWORD="Your Mandrill API Key"`
+    2. Add (and modify) the following line: `export MAIL_DEFAULT_SENDER="your@defaultaddress.com"`
 
 ## 3. Setup and Initialize Database
 1. Setup local database
