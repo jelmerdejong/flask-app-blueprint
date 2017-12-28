@@ -128,19 +128,25 @@ def confirm_email(token):
         confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         email = confirm_serializer.loads(token, salt='email-confirmation-salt', max_age=3600)
     except:
-        flash('The confirmation link is invalid or has expired.', 'error')
+        message = Markup(
+            "The confirmation link is invalid or has expired.")
+        flash(message, 'danger')
         return redirect(url_for('users.login'))
 
     user = User.query.filter_by(email=email).first()
 
     if user.email_confirmed:
-        flash('Account already confirmed. Please login.', 'info')
+        message = Markup(
+            "Account already confirmed. Please login.")
+        flash(message, 'info')
     else:
         user.email_confirmed = True
         user.email_confirmed_on = datetime.now()
         db.session.add(user)
         db.session.commit()
-        flash('Thank you for confirming your email address!')
+        message = Markup(
+            "Thank you for confirming your email address!")
+        flash(message, 'success')
 
     return redirect(url_for('home'))
 
@@ -158,7 +164,9 @@ def reset():
             return render_template('password_reset_email.html', form=form)
         if user.email_confirmed:
             send_password_reset_email(user.email)
-            flash('Please check your email for a password reset link.', 'success')
+            message = Markup(
+                "Please check your email for a password reset link.")
+            flash(message, 'success')
         else:
             message = Markup(
                 "Your email address must be confirmed before attempting a password reset.")
@@ -174,7 +182,9 @@ def reset_with_token(token):
         password_reset_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         email = password_reset_serializer.loads(token, salt='password-reset-salt', max_age=3600)
     except:
-        flash('The password reset link is invalid or has expired.', 'error')
+        message = Markup(
+            "The password reset link is invalid or has expired.")
+        flash(message, 'danger')
         return redirect(url_for('users.login'))
 
     form = PasswordForm()
@@ -183,13 +193,17 @@ def reset_with_token(token):
         try:
             user = User.query.filter_by(email=email).first_or_404()
         except:
-            flash('Invalid email address!', 'error')
+            message = Markup(
+                "Invalid email address!")
+            flash(message, 'danger')
             return redirect(url_for('users.login'))
 
         user.password = form.password.data
         db.session.add(user)
         db.session.commit()
-        flash('Your password has been updated!', 'success')
+        message = Markup(
+            "Your password has been updated!")
+        flash(message, 'success')
         return redirect(url_for('users.login'))
 
     return render_template('reset_password_with_token.html', form=form, token=token)
@@ -228,7 +242,9 @@ def user_password_change():
             user.password = form.password.data
             db.session.add(user)
             db.session.commit()
-            flash('Password has been updated!', 'success')
+            message = Markup(
+                "Password has been updated!")
+            flash(message, 'success')
             return redirect(url_for('users.user_profile'))
 
     return render_template('password_change.html', form=form)
@@ -239,14 +255,18 @@ def user_password_change():
 def resend_email_confirmation():
     try:
         send_confirmation_email(current_user.email)
-        flash('Email sent to confirm your email address.  Please check your email!', 'success')
+        message = Markup(
+            "Email sent to confirm your email address. Please check your inbox!")
+        flash(message, 'success')
         user = current_user
         user.authenticated = False
         db.session.add(user)
         db.session.commit()
         logout_user()
     except IntegrityError:
-        flash('Error!  Unable to send email to confirm your email address.', 'error')
+        message = Markup(
+            "Error!  Unable to send email to confirm your email address.")
+        flash(message, 'danger')
         user = current_user
         user.authenticated = False
         db.session.add(user)
@@ -272,10 +292,16 @@ def user_email_change():
                     db.session.add(user)
                     db.session.commit()
                     send_confirmation_email(user.email)
-                    flash('Email changed!  Please confirm your new email address (link sent to new email).', 'success')
+                    message = Markup(
+                        "Email changed!  Please confirm your new email address (link sent to new email)")
+                    flash(message, 'success')
                     return redirect(url_for('users.user_profile'))
                 else:
-                    flash('Sorry, that email already exists!', 'danger')
+                    message = Markup(
+                        "Sorry, that email already exists!")
+                    flash(message, 'danger')
             except IntegrityError:
-                flash('Error! That email already exists!', 'danger')
+                message = Markup(
+                    "Sorry, that email already exists!")
+                flash(message, 'danger')
     return render_template('email_change.html', form=form)
