@@ -1,4 +1,3 @@
-# project/test_users.py
 import unittest
 
 from project import app, db, mail
@@ -49,7 +48,6 @@ class UserTests(unittest.TestCase):
         new_user.email_confirmed = True
         db.session.add(new_user)
         db.session.commit()
-
 
     # TESTS
     def test_user_registration_form_displays(self):

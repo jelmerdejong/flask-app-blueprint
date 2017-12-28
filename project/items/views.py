@@ -77,33 +77,18 @@ def edit_item(items_id):
     return redirect(url_for('home'))
 
 
-@items_blueprint.route('/delete_item/<items_id>', methods=['GET', 'POST'])
+@items_blueprint.route('/delete_item/<items_id>')
 @login_required
 def delete_item(items_id):
-    item_with_user = db.session.query(Items, User).join(User).filter(Items.id == items_id).first()
-    if item_with_user is not None:
-        items = Items.query.filter_by(id=items_id)
-        if current_user.is_authenticated and item_with_user.Items.user_id == current_user.id:
-            print(request.method)
-            if request.method == 'POST':
-                try:
-                    db.session.delete(items[0])
-                    db.session.commit()
-                    message = Markup("<strong>Done.</strong> You have deleted item " + str(items_id) + ".")
-                    flash(message, 'success')
-                    return redirect(url_for('home'))
-                except Exception as e:
-                    db.session.rollback()
-                    print(e)
-                    message = Markup(
-                        "<strong>Error!</strong> Unable to delete item.")
-                    flash(message, 'danger')
-            return render_template('delete_item.html', items=items)
-        else:
-            message = Markup(
-                "<strong>Error!</strong> Incorrect permissions to access this item.")
-            flash(message, 'danger')
-    else:
-        message = Markup("<strong>Error!</strong> Item does not exist.")
+    item = Items.query.filter_by(id=items_id).first_or_404()
+
+    if not item.user_id == current_user.id:
+        message = Markup(
+            "<strong>Error!</strong> Incorrect permissions to delete this item.")
         flash(message, 'danger')
-    return redirect(url_for('home'))
+        return redirect(url_for('home'))
+
+    db.session.delete(item)
+    db.session.commit()
+    flash('{} was deleted.'.format(item.name), 'success')
+    return redirect(url_for('items.all_items'))
