@@ -1,0 +1,36 @@
+{% extends "_base.html" %}
+{% from "_formshelper.html" import render_field %}
+{% block title %}Admin: Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="row mx-auto">
+  <div class="card m-3" style="max-width: 20rem;">
+    <h5 class="card-header">Monthly Active Users</h5>
+    <div class="card-body">
+      <h1 class="display-1 text-center">{{ kpi_mau }}</h5>
+      <p class="card-text">Total number of users logged in in the last 30 days.</p>
+      <a href="{{ url_for('users.admin_view_users') }}" class="btn btn-primary">View all users</a>
+    </div>
+  </div>
+
+  <div class="card m-3" style="max-width: 20rem;">
+    <h5 class="card-header">Total Sign Ups</h5>
+    <div class="card-body">
+      <h1 class="display-1 text-center">{{ kpi_total_confirmed }}</h5>
+      <p class="card-text">Total users with a confirmed email address.</p>
+      <a href="{{ url_for('users.admin_view_users') }}" class="btn btn-primary">View all users</a>
+    </div>
+  </div>
+
+  <div class="card m-3" style="max-width: 20rem;">
+    <h5 class="card-header">MAU as % of Sign Ups</h5>
+    <div class="card-body">
+      <h1 class="display-1 text-center">{{ kpi_mau_percentage }}%</h5>
+      <p class="card-text">Percentage of monthly active users on total sign ups.</p>
+      <a href="{{ url_for('users.admin_view_users') }}" class="btn btn-primary">View all users</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

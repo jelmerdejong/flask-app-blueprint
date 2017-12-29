@@ -198,7 +198,7 @@ class UserTests(unittest.TestCase):
         self.app.get('/login', follow_redirects=True)
         response = self.login('admin@flaskappblueprint.com', 'adminpassword123')
         self.assertIn(b'admin@flaskappblueprint.com', response.data)
-        self.assertIn(b'View Users (Admin)', response.data)
+        self.assertIn(b'Admin Dashboard', response.data)
         response = self.app.get('/admin_view_users')
         self.assertIn(b'Admin: All Users', response.data)
 
@@ -211,7 +211,7 @@ class UserTests(unittest.TestCase):
         self.app.get('/login', follow_redirects=True)
         response = self.login('confirmed@flaskappblueprint.com', 'C0nFirmed!')
         self.assertIn(b'confirmed@flaskappblueprint.com', response.data)
-        self.assertNotIn(b'View Users (Admin)', response.data)
+        self.assertNotIn(b'Admin Dashboard', response.data)
         response = self.app.get('/admin_view_users')
         self.assertEqual(response.status_code, 403)
         self.assertIn(b'403', response.data)

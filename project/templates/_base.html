@@ -36,7 +36,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{{ url_for('users.user_profile') }}">My Profile</a>
               {% if current_user.role == "admin" %}
-              <a class="dropdown-item" href="{{ url_for('users.admin_view_users') }}">View Users (Admin)</a>
+              <a class="dropdown-item" href="{{ url_for('users.admin_dashboard') }}">Admin Dashboard</a>
               {% endif %}
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{{ url_for('users.logout') }}">Log Out</a>

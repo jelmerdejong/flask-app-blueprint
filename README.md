@@ -8,6 +8,7 @@ Created by [@jelmerdejong](https://twitter.com/jelmerdejong).
 ## Features
 * User registration (including email confirmation through Mandrill), forgot password
 * User profiles, including change password
+* Admin only pages including statistics and user management
 * Public and member only pages
 * Database setup, including database migrations and CRUD examples
 * Fast deployment on Heroku (including staging and production setup)

@@ -7,7 +7,7 @@ from flask_login import login_user, current_user, login_required, logout_user
 from itsdangerous import URLSafeTimedSerializer
 from threading import Thread
 from flask_mail import Message
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from .forms import RegisterForm, LoginForm, EmailForm, PasswordForm
 from project import app, db, mail
@@ -217,6 +217,19 @@ def admin_view_users():
     else:
         users = User.query.order_by(User.id).all()
         return render_template('admin_view_users.html', users=users)
+
+
+@users_blueprint.route('/admin_dashboard')
+@login_required
+def admin_dashboard():
+    if current_user.role != 'admin':
+        abort(403)
+    else:
+        users = User.query.order_by(User.id).all()
+        kpi_mau = User.query.filter(User.last_logged_in > (datetime.today() - timedelta(days=30))).count()
+        kpi_total_confirmed = User.query.filter_by(email_confirmed=True).count()
+        kpi_mau_percentage = (100 / kpi_total_confirmed) * kpi_mau
+        return render_template('admin_dashboard.html', users=users, kpi_mau=kpi_mau, kpi_total_confirmed=kpi_total_confirmed, kpi_mau_percentage=kpi_mau_percentage)
 
 
 @users_blueprint.route('/logout')
