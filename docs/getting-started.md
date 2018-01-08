@@ -43,7 +43,7 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
         2. Add (and modify) the following line: `cd ~/path/to/your/project`
         3. Add second line: `export APP_SETTINGS="config.DevelopmentConfig"`
         4. Generate a secure key ([for example here](https://randomkeygen.com/))
-        5. Add third line" `export SECRET_KEY="your-secret-key"`
+        5. Add third line `export SECRET_KEY="your-secret-key"`
 
 6. Install Packages
     1. Run `pip install -r requirements.txt`
@@ -52,6 +52,7 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
 1. Setup Github Repository
     1. Create a new repostitory in your Github account
     2. Change the remote origin to point to your new repository: `git remote set-url origin https://github.com/USERNAME/NEW_REPO.git`
+    3. Push the code to your new repository: `git push origin master`
 
 2. Install Heroku Toolbelt and git it configured
     1. Follow https://devcenter.heroku.com/articles/getting-started-with-python#set-up
@@ -109,10 +110,15 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
     3. Run `python manage.py runserver`
     4. Open in your browser: http://localhost:5000/
 
-2. Deploy and run on staging
+2. Make changes, and get them committed
+    1. Run `git add .`
+    2. Run `git commit -a -m "Your Commit Message"`
+    3. Run `git push origin master` to push to GitHub
+
+3. Deploy and run on staging
     1. Push latest version to staging: `git push staging master`
     2. Open in your browser: https://projectname-staging.herokuapp.com/
 
-3. Deploy and run on production
+4. Deploy and run on production
     1. Push latest version to production: `git push production master`
     2. Open in your browser: https://projectname-production.herokuapp.com/
