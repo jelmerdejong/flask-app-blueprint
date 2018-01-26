@@ -38,7 +38,7 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
 
 5. Create virtual environment
     1. Run `mkvirtualenv projectname`
-    2. Update postactate file:
+    2. Update postactivate file:
         1. Run `nano $VIRTUAL_ENV/bin/postactivate`
         2. Add (and modify) the following line: `cd ~/path/to/your/project`
         3. Add second line: `export APP_SETTINGS="config.DevelopmentConfig"`
