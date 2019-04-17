@@ -111,7 +111,7 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
     4. Open in your browser: http://localhost:5000/
 
 2. Make changes, and get them committed
-    1. Run `nose2` to ensure all tests still succeed
+    1. Run `nose2` to ensure all tests still succeed (before running nose2 make sure a database named 'test' is created)
     2. Run `git add .`
     3. Run `git commit -a -m "Your Commit Message"`
     4. Run `git push origin master` to push to GitHub
