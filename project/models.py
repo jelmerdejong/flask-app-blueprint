@@ -35,7 +35,7 @@ class User(db.Model):
         return self._password
 
     @password.setter
-    def set_password(self, password):
+    def password(self, password):
         self._password = bcrypt.generate_password_hash(password)
 
     @hybrid_method
