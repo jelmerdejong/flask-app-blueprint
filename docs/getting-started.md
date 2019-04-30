@@ -8,7 +8,7 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
     3. Follow the steps presented by the wizard
 
 2. Install HomeBrew
-    1. HomeBrew os a package manager for macOS, install it by opening your Terminal and type: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+    1. HomeBrew is a package manager for macOS, install it by opening your Terminal and type: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
     2. Add the following line to your bash profile:
         1. Open your bash profile by typing `nano ~/.bash_profile`
         2. Add the line: `export PATH=/usr/local/bin:$PATH`
