@@ -16,6 +16,6 @@ Created by [@jelmerdejong](https://twitter.com/jelmerdejong).
 * Including basic testing coverage and framework (nose2), and PEP8 check (flake8)
 
 ## Documentation
-Find all the documentation in this repository in the [docs folder](docs/index.md).
+Find all the documentation in this repository in the [docs folder](docs/README.md).
 
 ### [Getting Started](docs/getting-started.md)
