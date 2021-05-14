@@ -1,4 +1,4 @@
-from flask_script import Manager
+from flask_script import Manager, Server
 from flask_migrate import Migrate, MigrateCommand
 import os
 
@@ -11,4 +11,5 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
+    manager.add_command('runserver', Server(host='0.0.0.0', port=8001 ,   threaded=True))
     manager.run()

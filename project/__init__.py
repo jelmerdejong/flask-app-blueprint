@@ -11,6 +11,12 @@ load_dotenv(verbose=True)
 import redis
 from rq import Queue
 
+import redis
+from rq import Queue
+import time
+
+r = redis.Redis()
+q = Queue(connection=r)
 
 # CONFIG
 app = Flask(__name__, instance_relative_config=True)
@@ -32,12 +38,11 @@ def load_user(user_id):
 
 
 # BLUEPRINTS
-from project.users.views import users_blueprint
-from project.items.views import items_blueprint
+from project.users.views import users_blueprint 
+from project.textapi.views import textapi_blueprint
 
-app.register_blueprint(users_blueprint)
-app.register_blueprint(items_blueprint)
-
+app.register_blueprint(users_blueprint,url_prefix="/users") 
+app.register_blueprint(textapi_blueprint,url_prefix="/textapi")
 
 # ROUTES
 @app.route('/', methods=['GET', 'POST'])
@@ -63,3 +68,13 @@ def page_forbidden(e):
 @app.errorhandler(410)
 def page_gone(e):
     return render_template('410.html'), 410
+
+
+from transformers import PreTrainedTokenizerFast
+tokenizer = PreTrainedTokenizerFast.from_pretrained("skt/kogpt2-base-v2",
+bos_token='</s>', eos_token='</s>', unk_token='<unk>',
+pad_token='<pad>', mask_token='<mask>') 
+
+import torch
+from transformers import GPT2LMHeadModel
+model = GPT2LMHeadModel.from_pretrained('skt/kogpt2-base-v2')
