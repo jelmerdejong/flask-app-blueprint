@@ -48,4 +48,3 @@ SQLAlchemy==1.3.3
 urllib3==1.25.2
 Werkzeug==0.15.3
 WTForms==2.1
-python-dotenv==0.15.0
