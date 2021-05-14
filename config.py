@@ -8,17 +8,10 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'add-your-random-key-here'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgresql://localhost/flaskappblueprint'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     BCRYPT_LOG_ROUNDS = 15
-    MAIL_SERVER = 'smtp.mandrillapp.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'your-mandrill-username'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'your mandrill-password'
-    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or 'your@default-mail.com'
-
+    
 
 class ProductionConfig(Config):
     DEBUG = False

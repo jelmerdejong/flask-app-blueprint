@@ -85,3 +85,13 @@ class Items(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+class Texts:
+    __tablename__ = 'texts'
+    id = db.Column(db.Integer, primary_key=True)
+    texts = db.Column(db.Text, nullable=False)
+    predicted_text = db.Column(db.Text, nullable=False)
+    def __init__(self, texts, predicted_text):
+        self.texts = texts
+        self.predicted_text = predicted_text 
+    pass

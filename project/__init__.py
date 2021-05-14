@@ -6,8 +6,13 @@ from flask_bcrypt import Bcrypt
 from flask_login import current_user, login_required
 from flask_mail import Mail
 import os
+from dotenv import load_dotenv 
+load_dotenv(verbose=True)
+import redis
+from rq import Queue
 
-
+r = redis.Redis()
+q = Queue(connection=r)
 # CONFIG
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -31,9 +36,11 @@ def load_user(user_id):
 # BLUEPRINTS
 from project.users.views import users_blueprint
 from project.items.views import items_blueprint
+from project.texts.views import texts_blueprint
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(items_blueprint)
+app.register_blueprint(texts_blueprint)
 
 
 # ROUTES
