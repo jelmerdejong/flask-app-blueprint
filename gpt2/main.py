@@ -12,8 +12,8 @@ def process(url,secret):
     while True: 
         r = requests.get("{}/textapi/list".format(url))
         json_data = r.json()
+        length = len(json_data)
         if length > 0:
-            length = len(json_data)
             last_data = json_data[length -1 ]
             get_id = last_data["id"]
             get_text = last_data["texts"]
