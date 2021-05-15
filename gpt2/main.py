@@ -4,14 +4,12 @@ import requests
 import time
 import os
 
-def init():
-    model = GPT2LMHeadModel.from_pretrained('skt/kogpt2-base-v2')
-    from transformers import PreTrainedTokenizerFast
-    tokenizer = PreTrainedTokenizerFast.from_pretrained("skt/kogpt2-base-v2",
-        bos_token='</s>', eos_token='</s>', unk_token='<unk>',
-        pad_token='<pad>', mask_token='<mask>'
-    )
-
+model = GPT2LMHeadModel.from_pretrained('skt/kogpt2-base-v2')
+from transformers import PreTrainedTokenizerFast
+tokenizer = PreTrainedTokenizerFast.from_pretrained("skt/kogpt2-base-v2",
+    bos_token='</s>', eos_token='</s>', unk_token='<unk>',
+    pad_token='<pad>', mask_token='<mask>'
+)
  
 def process(url,secret):
     while True: 
