@@ -29,6 +29,7 @@ def process(url,secret):
         pass
 
 def do_predict(text):
+    print("data received : {}".format(text))
     input_ids = tokenizer.encode(text)
     gen_ids = model.generate(torch.tensor([input_ids]),
         max_length=128,
@@ -39,6 +40,7 @@ def do_predict(text):
         use_cache=True
     )
     generated = tokenizer.decode(gen_ids[0,:].tolist())
+    print("data returned : {}".format(generated))
     return generated
     
      
