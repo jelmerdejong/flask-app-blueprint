@@ -41,6 +41,5 @@ def do_predict(text):
     generated = tokenizer.decode(gen_ids[0,:].tolist())
     return generated
     
-    
-init()
+     
 process(os.getenv("ENDPOINT_URL"), os.getenv("SECRET"))
