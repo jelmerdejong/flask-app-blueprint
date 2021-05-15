@@ -32,8 +32,9 @@ def all_items():
     """Render homepage"""
     if request.args.get("filter") == "all":
         items = Texts.query.all()
+    elif request.args.get("filter") == "predict":
+        items = db.session.query(Texts).filter(Texts.predicted_text != None).all()
     else:
-        
         items = db.session.query(Texts).filter(Texts.predicted_text == None).all()
     return jsonify(items) 
 
