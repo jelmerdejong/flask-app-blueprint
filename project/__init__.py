@@ -37,10 +37,8 @@ app.register_blueprint(textapi_blueprint,url_prefix="/textapi")
 # ROUTES
 @app.route('/', methods=['GET', 'POST']) 
 def home():
-    data = {
-        "success": True
-    }
-    return jsonify(data)
+
+    return render_template('textapi.html')
 
 
  

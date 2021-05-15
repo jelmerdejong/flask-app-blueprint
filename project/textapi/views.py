@@ -6,6 +6,7 @@ from project import db
 from project.models import Texts
 
 from project import q
+
 import base64
 import secrets
 # CONFIG
@@ -31,11 +32,11 @@ def textview():
 def all_items():
     """Render homepage"""
     if request.args.get("filter") == "all":
-        items = Texts.query.all()
+        items = Texts.query.order_by(Texts.id.desc()).all()
     elif request.args.get("filter") == "predict":
-        items = db.session.query(Texts).filter(Texts.predicted_text != None).all()
+        items = db.session.query(Texts).filter(Texts.predicted_text != None).order_by(Texts.id.desc()).limit(10).all() # production web site
     else:
-        items = db.session.query(Texts).filter(Texts.predicted_text == None).all()
+        items = db.session.query(Texts).filter(Texts.predicted_text == None).order_by(Texts.id.desc()).all() # for gpt-2 receiver
     return jsonify(items) 
 
 @textapi_blueprint.route('/add', methods=['GET', 'POST'])
