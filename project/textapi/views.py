@@ -30,9 +30,12 @@ def textview():
 @textapi_blueprint.route('/list', methods=['GET', 'POST'])
 def all_items():
     """Render homepage"""
-    all_user_items = Texts.query.all()
-    
-    return jsonify(all_user_items) 
+    if request.args.get("filter") == "all":
+        items = Texts.query.all()
+    else:
+        
+        items = db.session.query(Texts).filter(Texts.predicted_text == None).all()
+    return jsonify(items) 
 
 @textapi_blueprint.route('/add', methods=['GET', 'POST'])
 def add_item():
