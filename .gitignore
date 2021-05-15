@@ -80,3 +80,4 @@ Temporary Items
 .apdisk
 project/testcode.db
 migrations/*
+radio_receiver/.env
