@@ -1,9 +1,8 @@
 # IMPORTS
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_bcrypt import Bcrypt
-from flask_login import current_user, login_required
+from flask_bcrypt import Bcrypt 
 from flask_mail import Mail
 import os
 from dotenv import load_dotenv 
@@ -25,56 +24,32 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 mail = Mail(app)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "users.login"
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+# login_manager.login_view = "users.login"
 
-from project.models import User, Items
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.filter(User.id == int(user_id)).first()
-
-
-# BLUEPRINTS
-from project.users.views import users_blueprint 
+ 
+# BLUEPRINTS 
 from project.textapi.views import textapi_blueprint
-
-app.register_blueprint(users_blueprint,url_prefix="/users") 
+ 
 app.register_blueprint(textapi_blueprint,url_prefix="/textapi")
 
 # ROUTES
-@app.route('/', methods=['GET', 'POST'])
-@login_required
+@app.route('/', methods=['GET', 'POST']) 
 def home():
-    """Render homepage"""
-
-    all_user_items = Items.query.filter_by(user_id=current_user.id)
-    return render_template('home.html', items=all_user_items)
-
-
-# ERROR PAGES
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
+    data = {
+        "success": True
+    }
+    return jsonify(data)
 
 
-@app.errorhandler(403)
-def page_forbidden(e):
-    return render_template('403.html'), 403
+ 
+# from transformers import PreTrainedTokenizerFast
+# tokenizer = PreTrainedTokenizerFast.from_pretrained("skt/kogpt2-base-v2",
+# bos_token='</s>', eos_token='</s>', unk_token='<unk>',
+# pad_token='<pad>', mask_token='<mask>') 
 
-
-@app.errorhandler(410)
-def page_gone(e):
-    return render_template('410.html'), 410
-
-
-from transformers import PreTrainedTokenizerFast
-tokenizer = PreTrainedTokenizerFast.from_pretrained("skt/kogpt2-base-v2",
-bos_token='</s>', eos_token='</s>', unk_token='<unk>',
-pad_token='<pad>', mask_token='<mask>') 
-
-import torch
-from transformers import GPT2LMHeadModel
-model = GPT2LMHeadModel.from_pretrained('skt/kogpt2-base-v2')
+# import torch
+# from transformers import GPT2LMHeadModel
+# model = GPT2LMHeadModel.from_pretrained('skt/kogpt2-base-v2')
+ 

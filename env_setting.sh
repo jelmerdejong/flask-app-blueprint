@@ -1,4 +1,5 @@
 #!/bin/bash
+
 export APP_SETTINGS=config.DevelopmentConfig
 export SECRET_KEY=supersecret
 
