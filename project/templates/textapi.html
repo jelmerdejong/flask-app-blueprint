@@ -76,7 +76,7 @@
          
         function updateData(url) {
             var content_element = document.getElementById("rawdata")
-            fetch("http://152.67.199.23:8001/textapi/list?filter=all")
+            fetch("http://152.67.199.23:8001/textapi/list?filter=predict")
             .then(function(response) {
                 
                 return response.text().then(function(text) {
@@ -91,7 +91,7 @@
                 
                             <p class="pb-3 mb-0 small lh-sm border-bottom">
                                 <strong class="d-block text-gray-dark">@username</strong>
-                                ${item["texts"]}  -> ${item["predicted_to"]}
+                                ${item["texts"]}  -> ${item["predicted_text"]}
                             </p>
                             </div>        
                        `

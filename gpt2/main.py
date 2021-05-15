@@ -10,7 +10,7 @@ def init():
  
 def process(url,secret):
     while True: 
-        r = requests.get(url + "/testapi/list")
+        r = requests.get("{}/testapi/list".format(url))
         json_data = r.json()
         if length > 0:
             length = len(json_data)
@@ -18,7 +18,7 @@ def process(url,secret):
             get_id = last_data["id"]
             get_text = last_data["texts"]
             gpt2_predicted = do_predict(get_text) 
-            update = requests.get(url + "/testapi/update/{}?secret={}&data={}".format(get_id,secret, gpt2_predicted ))
+            update = requests.get("{}/testapi/update/{}?secret={}&data={}".format(url,get_id,secret, gpt2_predicted ))
         else:
             print("No data, waiting 5 sec")
             time.sleep(5)
