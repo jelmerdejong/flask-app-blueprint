@@ -2,7 +2,7 @@ import torch
 from transformers import GPT2LMHeadModel
 import requests
 import time
-
+import os
 
 def init():
     model = GPT2LMHeadModel.from_pretrained('skt/kogpt2-base-v2')
