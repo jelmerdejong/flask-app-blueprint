@@ -1,0 +1,5 @@
+pyrtlsdr
+scipy
+numpy
+pyaudio
+SpeechRecognition
