@@ -15,17 +15,23 @@
 - https://github.com/randaller/fm2txt (radio signal to Text)
 - https://github.com/SKT-AI/KoGPT2 (GPT2)
 
-## 파일 설명
+## API
 - project/textapi/views.py
 - - -> / - static Page (Demo page : http://3.35.236.50:8001)
 - -> /textapi/add -> 
 - -> /textapi/update -> gpt2/main.py 에서 predict_text 변경
+
+## Radio signal to text
 - radio_receiver/listen.py
 - -> RTL-SDR 기반 USB 에서 수신한 라디오 신호를 텍스트로 변환, /textapi/add 를 통해 라디오 텍스트를 등록
+
+## GPT2
 - gpt2/main.py
 - -> textapi/list 를 호출해서 라디오 텍스트를 가져온다.
 - -> `input_ids = tokenizer.encode("<라디오 텍스트 >")` 여기에 값을 집어넣으면 GPT-2 를 통한 예측한 값이 나오고
 - -> /textapi/update 를 통해 예측한 값 반영
+
+
 
 ## Format
 - `<라디오 소리 Text -> GPT-2 결과>`
