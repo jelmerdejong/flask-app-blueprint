@@ -1,5 +1,7 @@
 ## 소개
-- RTL-SDR 에서 나온 라디오 신호를 텍스트로 변환, 변환된 텍스트를 gpt-2 (SKT-AI) 에 입력하고, 출력된걸 같이 출력해주는 프로그램 입니다.
+- RTL-SDR 에서 나온 라디오 신호를 텍스트로 변환, 변환된 텍스트를 gpt-2 (SKT-AI) 에 입력하고, 출력된걸 같이 출력해주는 웹 어플리케이션 입니다.
+- Demo : http://3.35.236.50:8001
+
 
 ## 환경
 - 700khz-1.7Ghz 안테나 USB SDR + Ubuntu 노트북
@@ -17,7 +19,7 @@
 
 ## API
 - project/textapi/views.py
-- - -> / - static Page (Demo page : http://3.35.236.50:8001)
+- - -> / - static Page 
 - -> /textapi/add -> 
 - -> /textapi/update -> gpt2/main.py 에서 predict_text 변경
 
