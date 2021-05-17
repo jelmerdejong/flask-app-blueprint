@@ -16,22 +16,30 @@
 - https://github.com/jelmerdejong/flask-app-blueprint (Flask)
 - https://github.com/randaller/fm2txt (radio signal to Text)
 - https://github.com/SKT-AI/KoGPT2 (GPT2)
+- https://getbootstrap.com/docs/5.0/examples/ ( Web Frontend )
+
+## Web Frontend
+- project/templates/textapi.html
+- 오픈소스 Bootstrap 사용 
 
 ## API
 - project/textapi/views.py
 - - -> / - static Page 
 - -> /textapi/add -> 
 - -> /textapi/update -> gpt2/main.py 에서 predict_text 변경
+- 오픈소스 flask-app-blueprint
 
 ## Radio signal to text
 - radio_receiver/listen.py
 - -> RTL-SDR 기반 USB 에서 수신한 라디오 신호를 텍스트로 변환, /textapi/add 를 통해 라디오 텍스트를 등록
+- 오픈소스 fm2txt 사용
 
 ## GPT2
 - gpt2/main.py
 - -> textapi/list 를 호출해서 라디오 텍스트를 가져온다.
 - -> `input_ids = tokenizer.encode("<라디오 텍스트 >")` 여기에 값을 집어넣으면 GPT-2 를 통한 예측한 값이 나오고
 - -> /textapi/update 를 통해 예측한 값 반영
+- 오픈소스 KoGPT2 사용
 
 
 
