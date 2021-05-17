@@ -17,7 +17,6 @@ RUN python3 /app/manage.py db upgrade
 ENV UWSGI_INI /app/uwsgi.ini
 # custom static folder
 ENV STATIC_PATH /app/project/static 
-ADD custom.nginx.conf /etc/nginx/conf.d/custom.nginx.conf
-
+ENV UWSGI_BUFFER_SIZE=32768
 
 # https://stackoverflow.com/questions/58018300/using-a-pip-cache-directory-in-docker-builds
