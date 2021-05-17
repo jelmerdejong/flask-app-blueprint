@@ -3,3 +3,4 @@ scipy
 numpy
 pyaudio
 SpeechRecognition
+python-dotenv
