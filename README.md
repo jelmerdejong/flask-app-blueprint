@@ -4,6 +4,11 @@
 ## 환경
 - 700khz-1.7Ghz 안테나 USB SDR + Ubuntu 노트북
 - AWS EC2 (GPT-2) ,Flask docker container
+- <img width="410" alt="image" src="https://user-images.githubusercontent.com/3627483/118436225-66b3ee00-b71b-11eb-9bd0-b08b29009d3a.png">
+<img width="387" alt="image" src="https://user-images.githubusercontent.com/3627483/118436233-6c113880-b71b-11eb-9224-c6ca2e31a9a6.png">
+<img width="390" alt="image" src="https://user-images.githubusercontent.com/3627483/118436243-716e8300-b71b-11eb-8df8-13e502c67109.png">
+<img width="387" alt="image" src="https://user-images.githubusercontent.com/3627483/118436250-759aa080-b71b-11eb-9eaa-9ab3a5c6efd0.png">
+
 
 ## 사용한 오픈소스
 - https://github.com/jelmerdejong/flask-app-blueprint (Flask)
