@@ -45,7 +45,7 @@ def recognize(stream_text):
         # result = recognizer.recognize_sphinx(audio_data)
         result = recognizer.recognize_google(audio_data, language=args.lang)
         print(result) # data -> send to server..
-        res = requests.get("http://152.67.199.23:8001/textapi/add?data={}&secret=sec123".format(result))
+        res = requests.get("http://{}/textapi/add?data={}&secret=sec123".format(ip_addr, result))
 
         print(endpoint_url, res.status_code)
         logger(result)
