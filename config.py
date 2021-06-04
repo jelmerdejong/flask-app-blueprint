@@ -1,5 +1,8 @@
 import os
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
+from dotenv import load_dotenv
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.flaskenv'))
 TOP_LEVEL_DIR = os.path.abspath(os.curdir)
 
 

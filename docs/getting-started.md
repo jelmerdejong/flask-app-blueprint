@@ -19,34 +19,19 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
 4. Install PIP (a package manager for Python)
     1. In your Terminal type `sudo easy_install pip`
 
+
 ## 1. Setup your development environment
-1. Install virtualenv
-    1. Run `sudo pip install virtualenv`
-
-2. Install virtualenvwrapper
-    1. Run `sudo pip install virtualenvwrapper`
-
-3. Add the following lines to your bash profile (open your bash profile by typing `nano ~/.bash_profile`):
-  * `export WORKON_HOME=~/Envs`
-  * `mkdir -p $WORKON_HOME`
-  * `source /user/local/bin/virtualenvwrapper.sh`
-
-4. Clone the repository and create a working directory
+1. Clone the repository and create a working directory
     1. Run `git clone git@github.com:jelmerdejong/flask-app-blueprint.git`
     2. Run `mv flask-app-blueprint projectname`
     2. Run `cd projectname`
 
-5. Create virtual environment
-    1. Run `mkvirtualenv projectname`
-    2. Update postactivate file:
-        1. Run `nano $VIRTUAL_ENV/bin/postactivate`
-        2. Add (and modify) the following line: `cd ~/path/to/your/project`
-        3. Add second line: `export APP_SETTINGS="config.DevelopmentConfig"`
-        4. Generate a secure key ([for example here](https://randomkeygen.com/))
-        5. Add third line `export SECRET_KEY="your-secret-key"`
+2. Create a virtual environment `python3 -m venv venv`
+
+3. Activate the virtual environment `. venv/bin/activate`
 
 6. Install Packages
-    1. Run `pip install -r requirements.txt`
+    1. Run `pip3 install -r requirements.txt`
 
 ## 2. Setup Github, Heroku, and Mandrill
 1. Setup Github Repository
@@ -79,26 +64,14 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
     2. Open Postgres.app and open psql
     3. Create new database:
         1. Run in psql: `CREATE DATABASE projectname;`
-    4. Update local configuration:
-        1. Run `nano $VIRTUAL_ENV/bin/postactivate`
-        2. Add line: `export DATABASE_URL="postgresql://localhost/projectname"`
-    5. Restart environment: `workon projectname`
 
 2. Initialize and run database migrations
-    1. delete the directory named 'migrations'
-    2. Run `python manage.py db init`
-    3. Run `python manage.py db migrate`
-    4. Run `python manage.py db upgrade`
+    4. Run `flask db upgrade`
 
 3. Setup databases on Heroku
     1. Create databases:
         1. Run `heroku addons:add heroku-postgresql:hobby-dev --app projectname-staging`
         2. Run `heroku addons:add heroku-postgresql:hobby-dev --app projectname-production`
-    2. Commit database migration and push to staging and live
-        1. Run `git add .`
-        2. Run `git commit -a -m "Database migrations"`
-        3. Run `git push staging master`
-        4. Run `git push production master`
     2. Run database migrations:
         1. Run `heroku run python manage.py db upgrade --app projectname-staging`
         2. Run `heroku run python manage.py db upgrade --app projectname-production`
@@ -106,8 +79,8 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
 ## 4. Deploy
 1. Run locally
     1. Open Postgres.app
-    2. Run `workon projectname`
-    3. Run `python manage.py runserver`
+    2. Run `. venv/bin/activate`
+    3. Run `flask run`
     4. Open in your browser: http://localhost:5000/
 
 2. Make changes, and get them committed
