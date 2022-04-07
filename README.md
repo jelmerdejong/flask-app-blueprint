@@ -3,8 +3,6 @@
 
 Flask App Blueprint is a boilerplate / starter project that will help you get started with an easy to learn, yet powerful technology stack. A stack that you can have up and running in less than 25 minutes, so you can focus on making the real thing. Ideal for hackathons, prototypes, MVPs, idea validation, or kickstarting your startup. Including registration, login, insert and retrieve info from a database, email integration, and have it all deployed on Heroku.
 
-Created by [@jelmerdejong](https://twitter.com/jelmerdejong).
-
 ## Features
 * User registration (including email confirmation through Mandrill), forgot password
 * User profiles, including change password
