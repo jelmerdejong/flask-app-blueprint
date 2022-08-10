@@ -73,8 +73,8 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
         1. Run `heroku addons:add heroku-postgresql:hobby-dev --app projectname-staging`
         2. Run `heroku addons:add heroku-postgresql:hobby-dev --app projectname-production`
     2. Run database migrations:
-        1. Run `heroku run python manage.py db upgrade --app projectname-staging`
-        2. Run `heroku run python manage.py db upgrade --app projectname-production`
+        1. Run `heroku run python flask db upgrade --app projectname-staging`
+        2. Run `heroku run python flask db upgrade --app projectname-production`
 
 ## 4. Deploy
 1. Run locally
