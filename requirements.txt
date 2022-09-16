@@ -26,7 +26,7 @@ gunicorn==19.7.1
 idna==2.7
 itsdangerous==0.24
 Jinja2==2.11.3
-Mako==1.0.6
+Mako==1.2.2
 MarkupSafe==2.0.1
 mccabe==0.6.1
 mock==2.0.0
