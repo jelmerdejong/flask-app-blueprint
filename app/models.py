@@ -1,4 +1,4 @@
-from project import db, bcrypt
+from app import db
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 from datetime import datetime
 
@@ -7,7 +7,6 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String, unique=True, nullable=False)
-    _password = db.Column(db.Binary(60), nullable=False)
     authenticated = db.Column(db.Boolean, default=False)
     email_confirmation_sent_on = db.Column(db.DateTime, nullable=True)
     email_confirmed = db.Column(db.Boolean, nullable=True, default=False)
@@ -20,7 +19,6 @@ class User(db.Model):
 
     def __init__(self, email, password, email_confirmation_sent_on=None, role='user'):
         self.email = email
-        self.password = password
         self.authenticated = False
         self.email_confirmation_sent_on = email_confirmation_sent_on
         self.email_confirmed = False
@@ -30,17 +28,6 @@ class User(db.Model):
         self.current_logged_in = datetime.now()
         self.role = role
 
-    @hybrid_property
-    def password(self):
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        self._password = bcrypt.generate_password_hash(password)
-
-    @hybrid_method
-    def is_correct_password(self, password):
-        return bcrypt.check_password_hash(self.password, password)
 
     @property
     def is_authenticated(self):

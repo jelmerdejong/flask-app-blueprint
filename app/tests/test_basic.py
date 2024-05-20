@@ -1,7 +1,6 @@
-# project/test_basic.py
 import unittest
 
-from project import app, db, mail
+from app import app, db, mail
 
 
 class BasicTests(unittest.TestCase):

@@ -1,10 +1,8 @@
-# project/items/views.py
-
 # IMPORTS
-from flask import render_template, Blueprint, request, redirect, url_for, flash, Markup
+from flask import render_template, Blueprint, request, redirect, url_for, flash
 from flask_login import current_user, login_required
-from project import db
-from project.models import Items, User
+from app import db
+from app.models import Items, User
 from .forms import ItemsForm, EditItemsForm
 
 
@@ -32,14 +30,12 @@ def add_item():
                                  current_user.id)
                 db.session.add(new_item)
                 db.session.commit()
-                message = Markup(
-                    "<strong>Well done!</strong> Item added successfully!")
+                message = "<strong>Well done!</strong> Item added successfully!"
                 flash(message, 'success')
                 return redirect(url_for('home'))
             except:
                 db.session.rollback()
-                message = Markup(
-                    "<strong>Oh snap!</strong>! Unable to add item.")
+                message = "<strong>Oh snap!</strong>! Unable to add item."
                 flash(message, 'danger')
     return render_template('add_item.html', form=form)
 
@@ -58,21 +54,19 @@ def edit_item(items_id):
                         item.name = form.name.data
                         item.notes = form.notes.data
                         db.session.commit()
-                        message = Markup("Item edited successfully!")
+                        message = "Item edited successfully!"
                         flash(message, 'success')
                         return redirect(url_for('home'))
                     except:
                         db.session.rollback()
-                        message = Markup(
-                            "<strong>Error!</strong> Unable to edit item.")
+                        message = "<strong>Error!</strong> Unable to edit item."
                         flash(message, 'danger')
             return render_template('edit_item.html', item=item_with_user, form=form)
         else:
-            message = Markup(
-                "<strong>Error!</strong> Incorrect permissions to access this item.")
+            message = "<strong>Error!</strong> Incorrect permissions to access this item."
             flash(message, 'danger')
     else:
-        message = Markup("<strong>Error!</strong> Item does not exist.")
+        message = "<strong>Error!</strong> Item does not exist."
         flash(message, 'danger')
     return redirect(url_for('home'))
 
@@ -83,8 +77,7 @@ def delete_item(items_id):
     item = Items.query.filter_by(id=items_id).first_or_404()
 
     if not item.user_id == current_user.id:
-        message = Markup(
-            "<strong>Error!</strong> Incorrect permissions to delete this item.")
+        message = "<strong>Error!</strong> Incorrect permissions to delete this item."
         flash(message, 'danger')
         return redirect(url_for('home'))
 

@@ -2,10 +2,9 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_bcrypt import Bcrypt
 from flask_login import current_user, login_required
-from flask_mail import Mail
 from flask_migrate import Migrate
+from flask_mail import Mail
 import os
 
 
@@ -15,14 +14,13 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-bcrypt = Bcrypt(app)
 mail = Mail(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "users.login"
 
-from project.models import User, Items
+from app.models import User, Items
 
 
 @login_manager.user_loader
@@ -31,8 +29,8 @@ def load_user(user_id):
 
 
 # BLUEPRINTS
-from project.users.views import users_blueprint
-from project.items.views import items_blueprint
+from app.users.views import users_blueprint
+from app.items.views import items_blueprint
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(items_blueprint)

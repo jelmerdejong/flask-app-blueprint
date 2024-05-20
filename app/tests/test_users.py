@@ -1,7 +1,7 @@
 import unittest
 
-from project import app, db, mail
-from project.models import User
+from app import app, db, mail
+from app.models import User
 
 
 class UserTests(unittest.TestCase):
