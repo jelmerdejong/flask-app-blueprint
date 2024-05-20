@@ -1,5 +1,3 @@
-# project/users/views.py
-
 # IMPORTS
 from flask import render_template, Blueprint, request, redirect, url_for, flash, abort
 from sqlalchemy.exc import IntegrityError
@@ -10,8 +8,8 @@ from flask_mail import Message
 from datetime import datetime, timedelta
 
 from .forms import RegisterForm, LoginForm, EmailForm, PasswordForm
-from project import app, db, mail
-from project.models import User
+from app import app, db, mail
+from app.models import User
 
 
 # CONFIG

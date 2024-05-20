@@ -1,10 +1,8 @@
-# project/items/views.py
-
 # IMPORTS
 from flask import render_template, Blueprint, request, redirect, url_for, flash
 from flask_login import current_user, login_required
-from project import db
-from project.models import Items, User
+from app import db
+from app.models import Items, User
 from .forms import ItemsForm, EditItemsForm
 
 

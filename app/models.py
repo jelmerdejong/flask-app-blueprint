@@ -1,4 +1,4 @@
-from project import db
+from app import db
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 from datetime import datetime
 

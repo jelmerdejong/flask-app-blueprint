@@ -20,7 +20,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "users.login"
 
-from project.models import User, Items
+from app.models import User, Items
 
 
 @login_manager.user_loader
@@ -29,8 +29,8 @@ def load_user(user_id):
 
 
 # BLUEPRINTS
-from project.users.views import users_blueprint
-from project.items.views import items_blueprint
+from app.users.views import users_blueprint
+from app.items.views import items_blueprint
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(items_blueprint)
