@@ -1,7 +1,7 @@
 # project/users/views.py
 
 # IMPORTS
-from flask import render_template, Blueprint, request, redirect, url_for, flash, Markup, abort
+from flask import render_template, Blueprint, request, redirect, url_for, flash, abort
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, current_user, login_required, logout_user
 from itsdangerous import URLSafeTimedSerializer
@@ -73,14 +73,12 @@ def register():
                 db.session.add(new_user)
                 db.session.commit()
                 send_confirmation_email(new_user.email)
-                message = Markup(
-                    "<strong>Success!</strong> Thanks for registering. Please check your email to confirm your email address.")
+                message = "<strong>Success!</strong> Thanks for registering. Please check your email to confirm your email address."
                 flash(message, 'success')
                 return redirect(url_for('home'))
             except IntegrityError:
                 db.session.rollback()
-                message = Markup(
-                    "<strong>Error!</strong> Unable to process registration.")
+                message = "<strong>Error!</strong> Unable to process registration."
                 flash(message, 'danger')
     return render_template('register.html', form=form)
 
@@ -105,13 +103,11 @@ def login():
                     db.session.add(user)
                     db.session.commit()
                     login_user(user)
-                    message = Markup(
-                        "<strong>Welcome back!</strong> You are now successfully logged in.")
+                    message = "<strong>Welcome back!</strong> You are now successfully logged in."
                     flash(message, 'success')
                     return redirect(url_for('home'))
             else:
-                message = Markup(
-                    "<strong>Error!</strong> Incorrect login credentials.")
+                message = "<strong>Error!</strong> Incorrect login credentials."
                 flash(message, 'danger')
     return render_template('login.html', form=form)
 
@@ -128,24 +124,21 @@ def confirm_email(token):
         confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         email = confirm_serializer.loads(token, salt='email-confirmation-salt', max_age=3600)
     except:
-        message = Markup(
-            "The confirmation link is invalid or has expired.")
+        message = "The confirmation link is invalid or has expired."
         flash(message, 'danger')
         return redirect(url_for('users.login'))
 
     user = User.query.filter_by(email=email).first()
 
     if user.email_confirmed:
-        message = Markup(
-            "Account already confirmed. Please login.")
+        message = "Account already confirmed. Please login."
         flash(message, 'info')
     else:
         user.email_confirmed = True
         user.email_confirmed_on = datetime.now()
         db.session.add(user)
         db.session.commit()
-        message = Markup(
-            "Thank you for confirming your email address!")
+        message = "Thank you for confirming your email address!"
         flash(message, 'success')
 
     return redirect(url_for('home'))
@@ -158,18 +151,15 @@ def reset():
         try:
             user = User.query.filter_by(email=form.email.data).first_or_404()
         except:
-            message = Markup(
-                "Invalid email address!")
+            message = "Invalid email address!"
             flash(message, 'danger')
             return render_template('password_reset_email.html', form=form)
         if user.email_confirmed:
             send_password_reset_email(user.email)
-            message = Markup(
-                "Please check your email for a password reset link.")
+            message = "Please check your email for a password reset link."
             flash(message, 'success')
         else:
-            message = Markup(
-                "Your email address must be confirmed before attempting a password reset.")
+            message = "Your email address must be confirmed before attempting a password reset."
             flash(message, 'danger')
         return redirect(url_for('users.login'))
 
@@ -182,8 +172,7 @@ def reset_with_token(token):
         password_reset_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         email = password_reset_serializer.loads(token, salt='password-reset-salt', max_age=3600)
     except:
-        message = Markup(
-            "The password reset link is invalid or has expired.")
+        message = "The password reset link is invalid or has expired."
         flash(message, 'danger')
         return redirect(url_for('users.login'))
 
@@ -193,16 +182,14 @@ def reset_with_token(token):
         try:
             user = User.query.filter_by(email=email).first_or_404()
         except:
-            message = Markup(
-                "Invalid email address!")
+            message = "Invalid email address!"
             flash(message, 'danger')
             return redirect(url_for('users.login'))
 
         user.password = form.password.data
         db.session.add(user)
         db.session.commit()
-        message = Markup(
-            "Your password has been updated!")
+        message = "Your password has been updated!"
         flash(message, 'success')
         return redirect(url_for('users.login'))
 
@@ -240,7 +227,7 @@ def logout():
     db.session.add(user)
     db.session.commit()
     logout_user()
-    message = Markup("<strong>Goodbye!</strong> You are now logged out.")
+    message = "<strong>Goodbye!</strong> You are now logged out."
     flash(message, 'info')
     return redirect(url_for('users.login'))
 
@@ -255,8 +242,7 @@ def user_password_change():
             user.password = form.password.data
             db.session.add(user)
             db.session.commit()
-            message = Markup(
-                "Password has been updated!")
+            message = "Password has been updated!"
             flash(message, 'success')
             return redirect(url_for('users.user_profile'))
 
@@ -268,8 +254,7 @@ def user_password_change():
 def resend_email_confirmation():
     try:
         send_confirmation_email(current_user.email)
-        message = Markup(
-            "Email sent to confirm your email address. Please check your inbox!")
+        message = "Email sent to confirm your email address. Please check your inbox!"
         flash(message, 'success')
         user = current_user
         user.authenticated = False
@@ -277,8 +262,7 @@ def resend_email_confirmation():
         db.session.commit()
         logout_user()
     except IntegrityError:
-        message = Markup(
-            "Error!  Unable to send email to confirm your email address.")
+        message = "Error!  Unable to send email to confirm your email address."
         flash(message, 'danger')
         user = current_user
         user.authenticated = False
@@ -305,16 +289,13 @@ def user_email_change():
                     db.session.add(user)
                     db.session.commit()
                     send_confirmation_email(user.email)
-                    message = Markup(
-                        "Email changed!  Please confirm your new email address (link sent to new email)")
+                    message = "Email changed!  Please confirm your new email address (link sent to new email)"
                     flash(message, 'success')
                     return redirect(url_for('users.user_profile'))
                 else:
-                    message = Markup(
-                        "Sorry, that email already exists!")
+                    message = "Sorry, that email already exists!"
                     flash(message, 'danger')
             except IntegrityError:
-                message = Markup(
-                    "Sorry, that email already exists!")
+                message = "Sorry, that email already exists!"
                 flash(message, 'danger')
     return render_template('email_change.html', form=form)

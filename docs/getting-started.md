@@ -26,12 +26,12 @@ Accelerate your next web project and start with this Flask App Blueprint. This G
     2. Run `mv flask-app-blueprint projectname`
     2. Run `cd projectname`
 
-2. Create a virtual environment `python3 -m venv venv`
+2. Create a virtual environment `python -m venv venv`
 
 3. Activate the virtual environment `. venv/bin/activate`
 
 6. Install Packages
-    1. Run `pip3 install -r requirements.txt`
+    1. Run `pip install -r requirements.txt`
 
 ## 2. Setup Github, Heroku, and Mandrill
 1. Setup Github Repository
