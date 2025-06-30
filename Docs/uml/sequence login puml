@@ -1,0 +1,17 @@
+@startuml sequence-login
+actor User
+participant "Login Page" as LoginPage
+participant "routes.py" as Route
+participant "models.py" as UserModel
+
+User -> LoginPage : open form
+User -> LoginPage : input username & password
+LoginPage -> Route : POST /login
+Route -> UserModel : validate_user()
+UserModel --> Route : user exists or not
+alt valid
+  Route --> LoginPage : redirect to dashboard
+else invalid
+  Route --> LoginPage : show error
+end
+@enduml

@@ -1,0 +1,15 @@
+@startuml class-diagram
+class User {
+    +id: int
+    +name: str
+    +login()
+}
+
+class Item {
+    +id: int
+    +title: str
+    +create()
+}
+
+User --> Item : owns
+@enduml

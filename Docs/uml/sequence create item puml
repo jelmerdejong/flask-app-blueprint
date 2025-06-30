@@ -1,0 +1,13 @@
+@startuml sequence-create-item
+actor User
+participant "Create Item Page" as ItemPage
+participant "routes.py" as Route
+participant "models.py" as ItemModel
+
+User -> ItemPage : open form
+User -> ItemPage : input item data
+ItemPage -> Route : POST /create
+Route -> ItemModel : save new item
+ItemModel --> Route : success
+Route --> ItemPage : show confirmation
+@enduml 
