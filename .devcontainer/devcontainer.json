@@ -1,11 +1,6 @@
 {
   "name": "flask-app-blueprint",
   "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
-  "features": {
-    "ghcr.io/devcontainers/features/sshd:1": {
-      "version": "latest"
-    }
-  },
   "postCreateCommand": "python -m pip install uv && uv sync --locked",
   "customizations": {
     "vscode": {
