@@ -76,8 +76,7 @@ class User(db.Model):
         return False
 
     def get_id(self) -> str:
-        """Return the email address to satisfy Flask-Login's requirements."""
-        """Requires use of Python 3"""
+        """Return the user's ID as a string for Flask-Login."""
         return str(self.id)
 
     def __repr__(self) -> str:

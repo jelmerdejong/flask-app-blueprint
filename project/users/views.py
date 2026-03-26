@@ -130,6 +130,11 @@ def confirm_email(token):
 
     user = get_user_by_email(email)
 
+    if user is None:
+        message = "The confirmation link is invalid or has expired."
+        flash(message, 'danger')
+        return redirect(url_for('users.login'))
+
     if user.email_confirmed:
         message = "Account already confirmed. Please login."
         flash(message, 'info')

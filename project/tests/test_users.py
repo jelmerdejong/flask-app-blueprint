@@ -1,5 +1,6 @@
 import unittest
 
+from itsdangerous import URLSafeTimedSerializer
 from sqlalchemy import select
 
 from project.extensions import db
@@ -112,6 +113,14 @@ class UserTests(BaseTestCase):
         self.app.get('/login', follow_redirects=True)
         response = self.login('test11@test11.com', 'c0mple*p$ssword!')
         self.assertIn(b'Email sent to confirm your email address', response.data)
+
+    def test_confirm_email_with_missing_user(self):
+        confirm_serializer = URLSafeTimedSerializer(self.test_app.config['SECRET_KEY'])
+        token = confirm_serializer.dumps('missing@flaskappblueprint.com', salt='email-confirmation-salt')
+        response = self.app.get(f'/confirm/{token}', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'The confirmation link is invalid or has expired.', response.data)
+        self.assertIn(b'Log In', response.data)
 
     def test_user_profile_without_logging_in(self):
         response = self.app.get('/user_profile')

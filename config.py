@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.flaskenv'))
-load_dotenv(os.path.join(basedir, '.env'), override=True)
+load_dotenv(os.path.join(basedir, '.env'))
 TOP_LEVEL_DIR = os.path.abspath(os.curdir)
 
 
