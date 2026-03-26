@@ -1,98 +1,83 @@
 # Getting Started
-Accelerate your next web project and start with this Flask App Blueprint. This Getting Started how-to is for written for OS X / macOS.
+This repository now targets a modern Flask workflow:
 
-## 0. Getting your machine ready, the prerequisites
-1. Install Xcode
-    1. Start with installing Xcode if you haven't already. You can find Xcode for free in the Apple Store
-    2. You also need to install the Command Line Tools (CLT) of Xcode, do this by opening your Terminal and type: `xcode-select --install`
-    3. Follow the steps presented by the wizard
+* Python `3.11` is the declared project runtime in [`.python-version`](../.python-version)
+* Local development defaults to SQLite
+* Tests run against an isolated temporary SQLite database
+* Heroku deployment uses the checked-in `Procfile` plus `flask db upgrade`
+* The UI uses Bootstrap `5.3.8` from CDN and no longer depends on jQuery
 
-2. Install HomeBrew
-    1. HomeBrew is a package manager for macOS, install it by opening your Terminal and type: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-    2. Add the following line to your bash profile:
-        1. Open your bash profile by typing `nano ~/.bash_profile`
-        2. Add the line: `export PATH=/usr/local/bin:$PATH`
+## 1. Local setup
+1. Clone the repository and enter it:
+   `git clone git@github.com:jelmerdejong/flask-app-blueprint.git`
+   `cd flask-app-blueprint`
+2. Install `uv`:
+   `python -m pip install uv`
+3. Sync the locked environment:
+   `uv sync --locked`
+4. Optional: create a local `.env` file from the checked-in example:
+   `cp .env.example .env`
+5. Apply database migrations:
+   `uv run flask db upgrade`
+6. Start the development server:
+   `uv run flask run`
 
-3. Install Python3 with HomeBrew
-    1. Type in your Terminal `brew install python3`
+The app uses `sqlite:///app.db` by default. If you want to use PostgreSQL locally, set `DATABASE_URL` in `.env`.
 
-4. Install PIP (a package manager for Python)
-    1. In your Terminal type `sudo easy_install pip`
+## 2. Run the test suite
+Run:
 
+`uv run python -m unittest discover -s project/tests -v`
 
-## 1. Setup your development environment
-1. Clone the repository and create a working directory
-    1. Run `git clone git@github.com:jelmerdejong/flask-app-blueprint.git`
-    2. Run `mv flask-app-blueprint projectname`
-    2. Run `cd projectname`
+The test suite creates and tears down its own temporary SQLite database, so you do not need to provision a separate `test` database first.
 
-2. Create a virtual environment `python3 -m venv venv`
+## 3. Configure email
+The app sends mail through `Flask-Mail`. Copy [`.env.example`](../.env.example) to `.env` and set the SMTP values you need:
 
-3. Activate the virtual environment `. venv/bin/activate`
+* `MAIL_SERVER`
+* `MAIL_PORT`
+* `MAIL_USE_TLS`
+* `MAIL_USE_SSL`
+* `MAIL_USERNAME`
+* `MAIL_PASSWORD`
+* `MAIL_DEFAULT_SENDER`
 
-6. Install Packages
-    1. Run `pip3 install -r requirements.txt`
+The defaults still point at Mandrill / Mailchimp Transactional SMTP, but they are now overrideable through environment variables.
 
-## 2. Setup Github, Heroku, and Mandrill
-1. Setup Github Repository
-    1. Create a new repostitory in your Github account
-    2. Change the remote origin to point to your new repository: `git remote set-url origin https://github.com/USERNAME/NEW_REPO.git`
-    3. Push the code to your new repository: `git push origin master`
+## 4. Use GitHub Codespaces
+This repo now includes [`.devcontainer/devcontainer.json`](../.devcontainer/devcontainer.json). Creating a codespace will:
 
-2. Install Heroku Toolbelt and git it configured
-    1. Follow https://devcenter.heroku.com/articles/getting-started-with-python#set-up
+* use Python `3.11`
+* install the VS Code Python extensions
+* create `.venv`
+* sync the checked-in `uv.lock`
+* forward port `5000`
 
-3. Create Staging environment on Heroku
-    1. Run `heroku create projectname-staging`
-    2. Run `git remote add staging https://git.heroku.com/projectname-staging.git`
-    3. Run `heroku config:set APP_SETTINGS=config.StagingConfig --remote staging`
+After the codespace starts, run:
 
-4. Create Production environment on Heroku
-    1. Run `heroku create projectname-production`
-    2. Run `git remote add production https://git.heroku.com/projectname-production.git`
-    3. Run `heroku config:set APP_SETTINGS=config.ProductionConfig --remote production`
+* `uv run flask db upgrade`
+* `uv run python -m unittest discover -s project/tests -v`
+* `uv run flask run --host 0.0.0.0 --port 5000`
 
-5. Create an account on [Mandrill](https://www.mandrill.com/)
-    1. Run `nano $VIRTUAL_ENV/bin/postactivate`
-    2. Add (and modify) the following line: `export MAIL_USERNAME="Your SMTP Username"`
-    2. Add (and modify) the following line: `export MAIL_PASSWORD="Your Mandrill API Key"`
-    2. Add (and modify) the following line: `export MAIL_DEFAULT_SENDER="your@defaultaddress.com"`
+Store secrets such as `SECRET_KEY` and SMTP credentials in Codespaces repository or organization secrets, not in the repo.
 
-## 3. Setup and Initialize Database
-1. Setup local database
-    1. Download and install [Postgres.app](http://postgresapp.com/)
-    2. Open Postgres.app and open psql
-    3. Create new database:
-        1. Run in psql: `CREATE DATABASE projectname;`
+## 5. Deploy to Heroku
+As of December 5, 2025, Heroku recommends declaring a Python version in `.python-version`, and as of January 7, 2026 it no longer supports Python 3.9 for new apps. This repo now pins `3.11` to avoid drifting to an untested default runtime.
 
-2. Initialize and run database migrations
-    4. Run `flask db upgrade`
+For a staging app:
 
-3. Setup databases on Heroku
-    1. Create databases:
-        1. Run `heroku addons:add heroku-postgresql:hobby-dev --app projectname-staging`
-        2. Run `heroku addons:add heroku-postgresql:hobby-dev --app projectname-production`
-    2. Run database migrations:
-        1. Run `heroku run python flask db upgrade --app projectname-staging`
-        2. Run `heroku run python flask db upgrade --app projectname-production`
+1. Create the app:
+   `heroku apps:create yourapp-staging`
+2. Add a git remote:
+   `heroku git:remote -a yourapp-staging --remote staging`
+3. Set config vars:
+   `heroku config:set APP_SETTINGS=config.StagingConfig SECRET_KEY=change-me -a yourapp-staging`
+4. Add PostgreSQL:
+   `heroku addons:create heroku-postgresql:essential-0 -a yourapp-staging`
+5. Add email config if needed:
+   `heroku config:set MAIL_USERNAME=... MAIL_PASSWORD=... MAIL_DEFAULT_SENDER=... -a yourapp-staging`
+6. Deploy:
+   `git push staging HEAD:master`
+7. The release phase in [Procfile](../Procfile) runs `flask db upgrade` automatically during deploy.
 
-## 4. Deploy
-1. Run locally
-    1. Open Postgres.app
-    2. Run `. venv/bin/activate`
-    3. Run `flask run`
-    4. Open in your browser: http://localhost:5000/
-
-2. Make changes, and get them committed
-    1. Run `nose2` to ensure all tests still succeed (before running nose2 make sure a database named 'test' is created)
-    2. Run `git add .`
-    3. Run `git commit -a -m "Your Commit Message"`
-    4. Run `git push origin master` to push to GitHub
-
-3. Deploy and run on staging
-    1. Push latest version to staging: `git push staging master`
-    2. Open in your browser: https://projectname-staging.herokuapp.com/
-
-4. Deploy and run on production
-    1. Push latest version to production: `git push production master`
-    2. Open in your browser: https://projectname-production.herokuapp.com/
+Repeat the same flow for production with `config.ProductionConfig`.

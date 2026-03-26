@@ -1,45 +1,58 @@
-from project import db, bcrypt
-from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
+from __future__ import annotations
+
 from datetime import datetime
+
+from sqlalchemy import ForeignKey, LargeBinary, String
+from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from project.extensions import bcrypt, db
+from project.time_utils import utc_now
 
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String, unique=True, nullable=False)
-    _password = db.Column(db.Binary(60), nullable=False)
-    authenticated = db.Column(db.Boolean, default=False)
-    email_confirmation_sent_on = db.Column(db.DateTime, nullable=True)
-    email_confirmed = db.Column(db.Boolean, nullable=True, default=False)
-    email_confirmed_on = db.Column(db.DateTime, nullable=True)
-    registered_on = db.Column(db.DateTime, nullable=True)
-    last_logged_in = db.Column(db.DateTime, nullable=True)
-    current_logged_in = db.Column(db.DateTime, nullable=True)
-    role = db.Column(db.String, default='user')
-    items = db.relationship('Items', backref='user', lazy='dynamic')
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    _password: Mapped[bytes] = mapped_column(LargeBinary(60), nullable=False)
+    authenticated: Mapped[bool] = mapped_column(default=False)
+    email_confirmation_sent_on: Mapped[datetime | None]
+    email_confirmed: Mapped[bool | None] = mapped_column(default=False)
+    email_confirmed_on: Mapped[datetime | None]
+    registered_on: Mapped[datetime | None]
+    last_logged_in: Mapped[datetime | None]
+    current_logged_in: Mapped[datetime | None]
+    role: Mapped[str] = mapped_column(String, default='user')
+    items: Mapped[list[Item]] = relationship(back_populates='user')
 
-    def __init__(self, email, password, email_confirmation_sent_on=None, role='user'):
+    def __init__(
+        self,
+        email: str,
+        password: str,
+        email_confirmation_sent_on: datetime | None = None,
+        role: str = 'user',
+    ) -> None:
         self.email = email
         self.password = password
         self.authenticated = False
         self.email_confirmation_sent_on = email_confirmation_sent_on
         self.email_confirmed = False
         self.email_confirmed_on = None
-        self.registered_on = datetime.now()
+        self.registered_on = utc_now()
         self.last_logged_in = None
-        self.current_logged_in = datetime.now()
+        self.current_logged_in = utc_now()
         self.role = role
 
     @hybrid_property
-    def password(self):
+    def password(self) -> bytes:
         return self._password
 
     @password.setter
-    def password(self, password):
+    def password(self, password: str) -> None:
         self._password = bcrypt.generate_password_hash(password)
 
     @hybrid_method
-    def is_correct_password(self, password):
+    def is_correct_password(self, password: str) -> bool:
         return bcrypt.check_password_hash(self.password, password)
 
     @property
@@ -62,26 +75,27 @@ class User(db.Model):
         """Always False, as anonymous users aren't supported."""
         return False
 
-    def get_id(self):
+    def get_id(self) -> str:
         """Return the email address to satisfy Flask-Login's requirements."""
         """Requires use of Python 3"""
         return str(self.id)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '<User {}>'.format(self.email)
 
 
-class Items(db.Model):
+class Item(db.Model):
     __tablename__ = 'items'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    notes = db.Column(db.String, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    notes: Mapped[str | None]
+    user_id: Mapped[int | None] = mapped_column(ForeignKey('users.id'))
+    user: Mapped[User | None] = relationship(back_populates='items')
 
-    def __init__(self, name, notes, user_id):
+    def __init__(self, name: str, notes: str | None, user_id: int) -> None:
         self.name = name
         self.notes = notes
         self.user_id = user_id
 
-    def __repr__(self):
-        return '<id {}>'.format(self.id)
+    def __repr__(self) -> str:
+        return '<Item {}>'.format(self.id)

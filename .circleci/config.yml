@@ -1,53 +1,37 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.2-stretch-browsers
-        environment:
-          FLASK_CONFIG: testing
-          TEST_DATABASE_URL: postgresql://circleci@localhost/test?sslmode=disable
-      - image: circleci/postgres:9.6.5-alpine-ram
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_DB: test
-          POSTGRES_PASSWORD: ""
+      - image: cimg/python:3.11
 
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v2-uv-{{ checksum "uv.lock" }}
+          - v2-uv-
 
       - run:
-          name: install dependencies
+          name: install uv
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
+            python3 -m pip install uv
+
+      - run:
+          name: sync dependencies
+          command: |
+            uv sync --locked
 
       - save_cache:
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+            - ./.venv
+          key: v2-uv-{{ checksum "uv.lock" }}
 
-      # run tests!
       - run:
-          name: run tests
+          name: run migrations and tests
           command: |
-            . venv/bin/activate
-            flask db upgrade
-            nose2
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+            export DATABASE_URL=sqlite:////tmp/flask-app-blueprint-ci.db
+            uv run flask db upgrade
+            uv run python -m unittest discover -s project/tests -v

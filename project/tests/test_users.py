@@ -1,26 +1,13 @@
 import unittest
 
-from project import app, db, mail
+from sqlalchemy import select
+
+from project.extensions import db
 from project.models import User
+from project.tests.base import BaseTestCase
 
 
-class UserTests(unittest.TestCase):
-    # SETUP AND TEARDOWN
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        app.config['DEBUG'] = False
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/test'
-        self.app = app.test_client()
-        db.drop_all()
-        db.create_all()
-
-        mail.init_app(app)
-        self.assertEqual(app.debug, False)
-
-    def tearDown(self):
-        pass
-
+class UserTests(BaseTestCase):
     # HELPER METHODS
     def register(self, email, password, confirm):
         return self.app.post(
@@ -58,7 +45,11 @@ class UserTests(unittest.TestCase):
     def test_valid_user_registration(self):
         self.app.get('/register', follow_redirects=True)
         response = self.register('test11@test11.com', 'c0mple*p$ssword!', 'c0mple*p$ssword!')
+        user = db.session.scalar(select(User).where(User.email == 'test11@test11.com'))
         self.assertIn(b'Thanks for registering', response.data)
+        self.assertIsNotNone(user)
+        self.assertIsNotNone(user.registered_on)
+        self.assertIsNotNone(user.email_confirmation_sent_on)
 
     def test_duplicate_email_user_registration_error(self):
         self.app.get('/register', follow_redirects=True)
@@ -96,11 +87,11 @@ class UserTests(unittest.TestCase):
         self.app.get('/login', follow_redirects=True)
         response = self.login('confirmed@flaskappblueprint.com', 'C0nFirmed!')
         self.assertIn(b'You are now successfully logged in.', response.data)
-        response = self.app.get('/logout', follow_redirects=True)
+        response = self.app.post('/logout', follow_redirects=True)
         self.assertIn(b'You are now logged out.', response.data)
 
     def test_invalid_logout_within_being_logged_in(self):
-        response = self.app.get('/logout', follow_redirects=True)
+        response = self.app.post('/logout', follow_redirects=True)
         self.assertIn(b'Log In', response.data)
 
     def test_user_profile_page(self):
@@ -125,7 +116,7 @@ class UserTests(unittest.TestCase):
     def test_user_profile_without_logging_in(self):
         response = self.app.get('/user_profile')
         self.assertEqual(response.status_code, 302)
-        self.assertIn(b'You should be redirected automatically to target URL:', response.data)
+        self.assertIn('/login?next=%2Fuser_profile', response.headers['Location'])
         self.assertIn(b'/login?next=%2Fuser_profile', response.data)
 
     def test_change_email_address_page(self):
@@ -141,11 +132,14 @@ class UserTests(unittest.TestCase):
         self.app.get('/login', follow_redirects=True)
         response = self.login('confirmed@flaskappblueprint.com', 'C0nFirmed!')
         self.app.post('/email_change', data=dict(email='confirmednew@flaskappblueprint.com'), follow_redirects=True)
+        user = db.session.scalar(select(User).where(User.email == 'confirmednew@flaskappblueprint.com'))
         response = self.app.get('/user_profile')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Email Address', response.data)
         self.assertIn(b'confirmednew@flaskappblueprint.com', response.data)
         self.assertNotIn(b'confirmed@flaskappblueprint.com', response.data)
+        self.assertIsNotNone(user)
+        self.assertIsNotNone(user.email_confirmation_sent_on)
 
     def test_change_email_address_with_existing_email(self):
         self.create_email_confirmed_user()
@@ -159,7 +153,7 @@ class UserTests(unittest.TestCase):
     def test_change_email_without_logging_in(self):
         response = self.app.get('/email_change')
         self.assertEqual(response.status_code, 302)
-        self.assertIn(b'You should be redirected automatically to target URL:', response.data)
+        self.assertIn('/login?next=%2Femail_change', response.headers['Location'])
         self.assertIn(b'/login?next=%2Femail_change', response.data)
         response = self.app.post('/email_change', data=dict(email='testemail@test.com'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -186,7 +180,7 @@ class UserTests(unittest.TestCase):
     def test_change_password_logging_in(self):
         response = self.app.get('/password_change')
         self.assertEqual(response.status_code, 302)
-        self.assertIn(b'You should be redirected automatically to target URL:', response.data)
+        self.assertIn('/login?next=%2Fpassword_change', response.headers['Location'])
         self.assertIn(b'/login?next=%2Fpassword_change', response.data)
         response = self.app.post('/password_change', data=dict(password='MyNewPassword1234'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -205,7 +199,7 @@ class UserTests(unittest.TestCase):
     def test_admin_site_invalid_access(self):
         response = self.app.get('/admin_view_users')
         self.assertEqual(response.status_code, 302)
-        self.assertIn(b'You should be redirected automatically to target URL:', response.data)
+        self.assertIn('/login?next=%2Fadmin_view_users', response.headers['Location'])
         self.assertIn(b'/login?next=%2Fadmin_view_users', response.data)
         self.create_email_confirmed_user()
         self.app.get('/login', follow_redirects=True)

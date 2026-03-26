@@ -2,34 +2,41 @@
 {% block title %}All Items{% endblock %}
 {% block content %}
 
-{% if items[0] == NULL %}
-<div class="panel-body">
-  <p>No items are added yet, <a href="{{ url_for('items.add_item') }}">add a new item</a>.</p>
+{% if not items %}
+<div class="content-panel p-4">
+  <p class="mb-0">No items are added yet. <a href="{{ url_for('items.add_item') }}">Add a new item</a>.</p>
 </div>
 {% else %}
-<table class="table table-stripe">
-  <thead>
-    <tr>
-      <th class="border-top-0">Name</th>
-      <th class="border-top-0">Notes</th>
-      <th class="border-top-0"></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in items %}
-    <tr>
-      <td>{{ item.name }}</td>
-      <td>
-        {{ item.notes }}
-      </td>
-      <td>
-        <a href="{{ url_for('items.edit_item', items_id=item.id) }}">Edit</a>
-        <a href="{{ url_for('items.delete_item', items_id=item.id) }}">Delete</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="content-panel overflow-hidden">
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Notes</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.notes }}</td>
+          <td class="text-end">
+            <div class="d-flex flex-wrap justify-content-end gap-2">
+              <a href="{{ url_for('items.edit_item', items_id=item.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+              <form action="{{ url_for('items.delete_item', items_id=item.id) }}" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endif %}
 
 {% endblock %}

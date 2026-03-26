@@ -1,11 +1,17 @@
 # Technology Stack
-* Language: [Python](https://www.python.org/)
-* Back-end Framework: [Flask](http://flask.pocoo.org/)
-* Front-end Framework: [Bootstrap](http://getbootstrap.com/)
-* Database: [PostgreSQL](http://www.postgresql.org/)
-* Hosting: [Heroku](https://www.heroku.com/)
-* Templating Engine: [Jinja2](http://flask.pocoo.org/)
-* Forms: [WTForms](https://wtforms.readthedocs.org/en/latest/index.html)
-* Object-Relational-Mapper: [SQLAlchemy](http://www.sqlalchemy.org/)
-* Database Migrations: [Alembic](https://alembic.readthedocs.org/en/latest/)
-* Styleguide checker: [Flake8](http://flake8.readthedocs.org/)
+* Runtime: Python `3.11` declared in [`.python-version`](../.python-version)
+* Web framework: Flask `3.1`
+* Front-end: Bootstrap `5.3.8` via CDN, using the Bootstrap bundle JS without jQuery
+* ORM: SQLAlchemy `2.0` through Flask-SQLAlchemy `3.1`
+* Forms: Flask-WTF and WTForms
+* Authentication: Flask-Login and Flask-Bcrypt
+* Email: Flask-Mail with SMTP configuration from environment variables
+* Database migrations: Alembic via Flask-Migrate
+* Local development database: SQLite by default
+* Production database: PostgreSQL
+* Dependency manager and lockfile: `uv` with `pyproject.toml` and `uv.lock`
+* Process model: Gunicorn via [Procfile](../Procfile)
+* Tests: Python `unittest`
+* CI: CircleCI
+* Cloud development: GitHub Codespaces via [`.devcontainer/devcontainer.json`](../.devcontainer/devcontainer.json)
+* Deployment target: Heroku

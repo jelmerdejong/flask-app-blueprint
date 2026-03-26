@@ -1,0 +1,11 @@
+{% extends "_base.html" %}
+{% block title %}400{% endblock %}
+
+{% block content %}
+
+<div class="content-panel p-4 p-lg-5">
+  <h2 class="h3 mb-3">Bad request</h2>
+  <p class="mb-0">{{ error_message or "The request could not be processed." }}</p>
+</div>
+
+{% endblock %}

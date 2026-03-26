@@ -1,26 +1,10 @@
 # project/test_basic.py
 import unittest
 
-from project import app, db, mail
+from project.tests.base import BaseTestCase
 
 
-class BasicTests(unittest.TestCase):
-    # SETUP AND TEARDOWN
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        app.config['DEBUG'] = False
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/test'
-        self.app = app.test_client()
-        db.drop_all()
-        db.create_all()
-
-        mail.init_app(app)
-        self.assertEqual(app.debug, False)
-
-    def tearDown(self):
-        pass
-
+class BasicTests(BaseTestCase):
     # HELPER METHODS
     def register(self, email, password, confirm):
         return self.app.post(
@@ -37,7 +21,7 @@ class BasicTests(unittest.TestCase):
         )
 
     def logout_user(self):
-        return self.app.get(
+        return self.app.post(
             '/logout',
             follow_redirects=True
         )
@@ -52,7 +36,7 @@ class BasicTests(unittest.TestCase):
                                  'PasswIsGood13#$',
                                  'PasswIsGood13#$')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'<strong>Success!</strong> Thanks for registering.', response.data)
+        self.assertIn(b'Success! Thanks for registering.', response.data)
 
     def test_invalid_user_registration_different_passwords(self):
         response = self.register('test22@test22.com',
@@ -68,7 +52,7 @@ class BasicTests(unittest.TestCase):
         response = self.register('test33@test33.com',
                                  '89298dka',
                                  '89298dka')
-        self.assertIn(b'<strong>Error!</strong> Unable to process registration.', response.data)
+        self.assertIn(b'Error! Unable to process registration.', response.data)
 
 
 if __name__ == "__main__":

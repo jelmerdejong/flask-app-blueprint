@@ -1,0 +1,23 @@
+{
+  "name": "flask-app-blueprint",
+  "description": "Starter Flask app with auth, CRUD, migrations, Codespaces support, and Heroku deployment.",
+  "repository": "https://github.com/jelmerdejong/flask-app-blueprint",
+  "keywords": [
+    "python",
+    "flask",
+    "heroku"
+  ],
+  "env": {
+    "APP_SETTINGS": {
+      "description": "Application config class path used by the app.",
+      "value": "config.ProductionConfig"
+    },
+    "SECRET_KEY": {
+      "description": "Secret key used by Flask and token generation.",
+      "generator": "secret"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:essential-0"
+  ]
+}

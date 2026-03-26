@@ -3,24 +3,28 @@
 {% from "_formshelper.html" import render_field %}
 {% block content %}
 
-<div class="row">
-  <div class="col-md-6">
+<div class="row g-4 align-items-start">
+  <div class="col-lg-6">
+    <div class="content-panel p-4 p-lg-5">
     <form action="{{ url_for('items.add_item') }}" method="post" name="itemsform">
         {{ form.csrf_token }}
-        <div class="form-group">
-          {{ form.name.label }}
+        <div class="mb-3">
+          {{ form.name.label(class="form-label") }}
           {{ render_field(form.name, class="form-control") }}
         </div>
-        <div class="form-group">
-          {{ form.notes.label }}
+        <div class="mb-4">
+          {{ form.notes.label(class="form-label") }}
           {{ render_field(form.notes, class="form-control") }}
         </div>
-        <input type="submit" value="Add Item" class="btn btn-lg btn-success">
+        <input type="submit" value="Add Item" class="btn btn-success">
     </form>
+    </div>
   </div>
-  <div class="col-md-6">
-    <h4>On adding items</h4>
-    <p>If you need hep, provide it here.</p>
+  <div class="col-lg-6">
+    <div class="content-panel p-4 p-lg-5">
+      <h2 class="h4 mb-3">On adding items</h2>
+      <p class="hero-copy mb-0">Add a short name and any notes you want to keep with it. The list is intentionally simple so it can serve as a clean CRUD example.</p>
+    </div>
   </div>
 </div>
 
