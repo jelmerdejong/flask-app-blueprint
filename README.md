@@ -1,5 +1,5 @@
 # Flask App Blueprint: the fast way to start your MVP
-[![CircleCI](https://circleci.com/gh/jelmerdejong/flask-app-blueprint.svg?style=shield)](https://circleci.com/gh/jelmerdejong/flask-app-blueprint)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/jelmerdejong/flask-app-blueprint?quickstart=1)
 
 Flask App Blueprint is a small starter app for Flask 3 projects. It includes authentication, CRUD examples, database migrations, transactional email hooks, a verified unittest suite, and a workflow that works locally, in GitHub Codespaces, and on Heroku.
 
