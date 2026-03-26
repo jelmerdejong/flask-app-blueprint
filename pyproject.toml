@@ -1,0 +1,25 @@
+[project]
+name = "flask-app-blueprint"
+version = "0.1.0"
+description = "Starter Flask app with auth, CRUD, migrations, and Heroku/Codespaces support."
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "alembic==1.16.5",
+    "email-validator==2.3.0",
+    "Flask==3.1.3",
+    "Flask-Bcrypt==1.0.1",
+    "Flask-Login==0.6.3",
+    "Flask-Mail==0.10.0",
+    "Flask-Migrate==4.1.0",
+    "Flask-SQLAlchemy==3.1.1",
+    "Flask-WTF==1.2.2",
+    "gunicorn==23.0.0",
+    "psycopg2-binary==2.9.11",
+    "python-dotenv==1.2.1",
+    "SQLAlchemy==2.0.48",
+]
+
+[tool.uv]
+package = false
+default-groups = []

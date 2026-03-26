@@ -1,27 +1,33 @@
-# Mandrill installation and configuration
-For the emails being send to, amongst others, confirm users email addresses on registration, we are using Mandrill, the transactional email tool provided by the creators of MailChimp.
+# Configuring Transactional Email
+The application sends confirmation and password-reset emails through `Flask-Mail`.
 
-# Get Mandrill account and auth keys
-First step is to browse to [mandrill.com](http://mandrill.com/) and register for an account. Then active and login to this account and ensure you have an domain added, verified and configured.
+By default, [config.py](../config.py) still points at Mandrill / Mailchimp Transactional SMTP:
 
-Now update config.py in the application root of this app to verify the MAIL_SERVER, MAIL_PORT, and MAIL_DEFAULT_SENDER entries. You can find this information on the 'SMTP & API login' under 'Settings' in Mandrill.
+* `MAIL_SERVER=smtp.mandrillapp.com`
+* `MAIL_PORT=587`
 
-At the same 'SMTP & API login' you can find your API Keys. It's smart to create a new key by clicking '+ New API Key', create this new key and copy the key.
+All mail settings can now be overridden with environment variables, so you do not need to edit code to change providers.
 
-# Add the Mandrill login details to your local environments variables
-To ensure our private credentials are not ending up in the git repo (or worse), we are storing all private keys in variables on our environment. Same for the Mandrill login credentials:
+## Local development
+1. Copy the example env file:
+   `cp .env.example .env`
+2. Set the values your SMTP provider requires:
+   * `MAIL_SERVER`
+   * `MAIL_PORT`
+   * `MAIL_USE_TLS`
+   * `MAIL_USE_SSL`
+   * `MAIL_USERNAME`
+   * `MAIL_PASSWORD`
+   * `MAIL_DEFAULT_SENDER`
 
-1. In your terminal enter `nano $VIRTUAL_ENV/bin/postactivate`
-2. Add `export MAIL_USERNAME="Your Mandrill Username"`
-3. Add `export MAIL_PASSWORD="Your Mandrill API Key"`
+If you do not configure mail locally, the test suite still passes because test config suppresses outbound mail.
 
-# Add the Mandrill login details to your Heroku instances
-If you want to use Mandrill as well on your Heroku staging or production environment, you also need to add the login details there:
+## GitHub Codespaces
+Store the same values in Codespaces secrets instead of committing them to the repository. The codespace will pick them up automatically through the environment.
 
-For staging:
-1. Run `heroku config:set MAIL_USERNAME="Your Mandrill Username" --remote staging`
-2. Run `heroku config:set MAIL_PASSWORD="Your Mandrill API Key" --remote staging`
+## Heroku
+Set the values as config vars on each app:
 
-And for production:
-1. Run `heroku config:set MAIL_USERNAME="Your Mandrill Username" --remote production`
-2. Run `heroku config:set MAIL_PASSWORD="Your Mandrill API Key" --remote production`
+`heroku config:set MAIL_SERVER=smtp.mandrillapp.com MAIL_PORT=587 MAIL_USE_TLS=true MAIL_USERNAME=... MAIL_PASSWORD=... MAIL_DEFAULT_SENDER=... -a yourapp-name`
+
+Repeat for staging and production if you keep separate Heroku apps.

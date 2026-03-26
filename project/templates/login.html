@@ -4,29 +4,33 @@
 
 {% block content %}
 
-<div class="row">
-  <div class="col-md-6">
+<div class="row g-4 align-items-start">
+  <div class="col-lg-5">
+    <div class="content-panel p-4 p-lg-5">
     <form action="{{ url_for('users.login') }}" method="post">
         {{ form.csrf_token }}
-        <div class="form-group">
-          {{ form.email.label }}
+        <div class="mb-3">
+          {{ form.email.label(class="form-label") }}
           {{ render_field(form.email, class="form-control", placeholder="Email address") }}
         </div>
-        <div class="form-group">
-          {{ form.password.label }}
+        <div class="mb-4">
+          {{ form.password.label(class="form-label") }}
           {{ render_field(form.password, class="form-control", placeholder="Password") }}
         </div>
-        <input type="submit" value="Log In" class="btn btn-lg btn-success">
-        <p><br /><em><a href="/reset">Forgot your password?</a></em></p>
+        <div class="d-flex flex-column flex-sm-row gap-3 align-items-sm-center">
+          <input type="submit" value="Log In" class="btn btn-success">
+          <a href="{{ url_for('users.reset') }}" class="link-secondary">Forgot your password?</a>
+        </div>
     </form>
+    </div>
   </div>
-  <div class="col-md-6">
-    <h3>Start your new MVP today!</h3>
-    <h4>Flask App Blueprint: focus on your unique idea.</h4>
-    <p>With Flask App Blueprint you have a simple to start direclty with your idea, without spending way to much time fixing the basics. Get going, start today.</p>
-    <p><em>Don't have an account yet?</em> <a href="{{ url_for('users.register') }}">Sign up for free!</a></p>
+  <div class="col-lg-7">
+    <div class="content-panel p-4 p-lg-5">
+      <h2 class="h3 mb-3">Start your new MVP today</h2>
+      <p class="hero-copy">Flask App Blueprint gives you a working auth and CRUD baseline so you can focus on the parts of the product that are actually specific to your idea.</p>
+      <p class="mb-0"><em>Don't have an account yet?</em> <a href="{{ url_for('users.register') }}">Sign up for free!</a></p>
+    </div>
   </div>
 </div>
-
 
 {% endblock %}

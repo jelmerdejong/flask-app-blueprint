@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
-    sa.Column('_password', sa.Binary(), nullable=False),
+    sa.Column('_password', sa.LargeBinary(), nullable=False),
     sa.Column('authenticated', sa.Boolean(), nullable=True),
     sa.Column('email_confirmation_sent_on', sa.DateTime(), nullable=True),
     sa.Column('email_confirmed', sa.Boolean(), nullable=True),

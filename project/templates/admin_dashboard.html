@@ -4,30 +4,30 @@
 
 {% block content %}
 
-<div class="row mx-auto">
-  <div class="card m-3" style="max-width: 20rem;">
-    <h5 class="card-header">Monthly Active Users</h5>
-    <div class="card-body">
-      <h1 class="display-1 text-center">{{ kpi_mau }}</h5>
-      <p class="card-text">Total number of users logged in in the last 30 days.</p>
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="content-panel h-100 p-4">
+      <h2 class="h5 mb-4">Monthly Active Users</h2>
+      <p class="display-4 text-center mb-3">{{ kpi_mau }}</p>
+      <p class="text-secondary">Total number of users logged in during the last 30 days.</p>
       <a href="{{ url_for('users.admin_view_users') }}" class="btn btn-primary">View all users</a>
     </div>
   </div>
 
-  <div class="card m-3" style="max-width: 20rem;">
-    <h5 class="card-header">Total Sign Ups</h5>
-    <div class="card-body">
-      <h1 class="display-1 text-center">{{ kpi_total_confirmed }}</h5>
-      <p class="card-text">Total users with a confirmed email address.</p>
+  <div class="col-lg-4">
+    <div class="content-panel h-100 p-4">
+      <h2 class="h5 mb-4">Total Sign Ups</h2>
+      <p class="display-4 text-center mb-3">{{ kpi_total_confirmed }}</p>
+      <p class="text-secondary">Total users with a confirmed email address.</p>
       <a href="{{ url_for('users.admin_view_users') }}" class="btn btn-primary">View all users</a>
     </div>
   </div>
 
-  <div class="card m-3" style="max-width: 20rem;">
-    <h5 class="card-header">MAU as % of Sign Ups</h5>
-    <div class="card-body">
-      <h1 class="display-1 text-center">{{ kpi_mau_percentage }}%</h5>
-      <p class="card-text">Percentage of monthly active users on total sign ups.</p>
+  <div class="col-lg-4">
+    <div class="content-panel h-100 p-4">
+      <h2 class="h5 mb-4">MAU as % of Sign Ups</h2>
+      <p class="display-4 text-center mb-3">{{ kpi_mau_percentage }}%</p>
+      <p class="text-secondary">Percentage of monthly active users over total confirmed sign ups.</p>
       <a href="{{ url_for('users.admin_view_users') }}" class="btn btn-primary">View all users</a>
     </div>
   </div>

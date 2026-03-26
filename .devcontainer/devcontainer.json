@@ -1,0 +1,27 @@
+{
+  "name": "flask-app-blueprint",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "uv sync --locked",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+  "forwardPorts": [
+    5000
+  ],
+  "portsAttributes": {
+    "5000": {
+      "label": "Flask App",
+      "onAutoForward": "notify"
+    }
+  }
+}

@@ -1,26 +1,13 @@
 import unittest
 
-from project import app, db, mail
-from project.models import Items, User
+from sqlalchemy import select
+
+from project.extensions import db
+from project.models import Item, User
+from project.tests.base import BaseTestCase
 
 
-class UserTests(unittest.TestCase):
-    # SETUP AND TEARDOWN
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        app.config['DEBUG'] = False
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/test'
-        self.app = app.test_client()
-        db.drop_all()
-        db.create_all()
-
-        mail.init_app(app)
-        self.assertEqual(app.debug, False)
-
-    def tearDown(self):
-        pass
-
+class ItemTests(BaseTestCase):
     # HELPER METHODS
     def register(self, email, password, confirm):
         return self.app.post(
@@ -57,18 +44,18 @@ class UserTests(unittest.TestCase):
         self.login('user2@flaskappblueprint.com', 'User$$2&')
 
     def logout_user(self):
-        self.app.get('/logout', follow_redirects=True)
+        self.app.post('/logout', follow_redirects=True)
 
     def add_items(self):
         self.register_user()
         self.register_user2()
-        user1 = User.query.filter_by(email='user1@flaskappblueprint.com').first()
-        user2 = User.query.filter_by(email='user2@flaskappblueprint.com').first()
-        item1 = Items('Lorem ipsum', 'Consectetur adipiscing elit', user1.id)
-        item2 = Items('Aliquam felis', ' Pellentesque volutpat consequat est.', user1.id)
-        item3 = Items('Sed a dapibus', 'Fusce gravida posuere turpis, ut leo suscipit at.', user1.id)
-        item4 = Items('Vestibulum', 'Nullam fermentum scelerisque sem', user2.id)
-        item5 = Items('Sed sodales', 'Mauris pellentesque leo a erat finibus semper', user2.id)
+        user1 = db.session.scalar(select(User).filter_by(email='user1@flaskappblueprint.com'))
+        user2 = db.session.scalar(select(User).filter_by(email='user2@flaskappblueprint.com'))
+        item1 = Item('Lorem ipsum', 'Consectetur adipiscing elit', user1.id)
+        item2 = Item('Aliquam felis', ' Pellentesque volutpat consequat est.', user1.id)
+        item3 = Item('Sed a dapibus', 'Fusce gravida posuere turpis, ut leo suscipit at.', user1.id)
+        item4 = Item('Vestibulum', 'Nullam fermentum scelerisque sem', user2.id)
+        item5 = Item('Sed sodales', 'Mauris pellentesque leo a erat finibus semper', user2.id)
         db.session.add(item1)
         db.session.add(item2)
         db.session.add(item3)
@@ -141,21 +128,21 @@ class UserTests(unittest.TestCase):
     def test_item_delete_valid_user(self):
         self.add_items()
         self.login_user()
-        response = self.app.get('/delete_item/2', follow_redirects=True)
+        response = self.app.post('/delete_item/2', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'was deleted', response.data)
 
     def test_item_delete_invalid_user(self):
         self.add_items()
         self.login_user2()
-        response = self.app.get('/delete_item/2', follow_redirects=True)
+        response = self.app.post('/delete_item/2', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Incorrect permissions to delete this item', response.data)
 
     def test_item_delete_invalid_item(self):
         self.add_items()
         self.login_user2()
-        response = self.app.get('/delete_item/99', follow_redirects=True)
+        response = self.app.post('/delete_item/99', follow_redirects=True)
         self.assertEqual(response.status_code, 404)
 
     def test_item_all_items(self):

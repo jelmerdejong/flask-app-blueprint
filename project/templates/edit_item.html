@@ -3,17 +3,19 @@
 {% from "_formshelper.html" import render_field %}
 {% block content %}
 
-<form action="{{ url_for('items.edit_item', items_id=item.Items.id) }}" method="post" name="edititemsform">
+<div class="content-panel p-4 p-lg-5">
+<form action="{{ url_for('items.edit_item', items_id=item.id) }}" method="post" name="edititemsform">
     {{ form.csrf_token }}
-    <div class="form-group">
-      {{ form.name.label }}
-      {{ render_field(form.name, class="form-control", value=item.Items.name) }}
+    <div class="mb-3">
+      {{ form.name.label(class="form-label") }}
+      {{ render_field(form.name, class="form-control", value=item.name) }}
     </div>
-    <div class="form-group">
-      {{ form.notes.label }}
-      {{ render_field(form.notes, class="form-control", value=item.Items.notes) }}
+    <div class="mb-4">
+      {{ form.notes.label(class="form-label") }}
+      {{ render_field(form.notes, class="form-control", value=item.notes) }}
     </div>
-    <input type="submit" value="Edit Item" class="btn btn-lg btn-success">
+    <input type="submit" value="Save Changes" class="btn btn-success">
 </form>
+</div>
 
 {% endblock %}

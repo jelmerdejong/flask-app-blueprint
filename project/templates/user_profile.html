@@ -4,35 +4,39 @@
 
 {% block content %}
 
-<div class="card mb-3" style="max-width: 30rem;">
-  <div class="card-header text-white bg-primary mb-3">Email Address</div>
-  <div class="card-body">
-    <p class="card-text">{{current_user.email}}</p>
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="content-panel h-100 p-4">
+      <h2 class="h5 mb-3">Email Address</h2>
+      <p class="mb-0">{{ current_user.email }}</p>
+    </div>
   </div>
-</div>
 
-<div class="card mb-3" style="max-width: 30rem;">
-  <div class="card-header bg-light mb-3">Account Actions</div>
-  <div class="card-body">
-    <p class="card-text"><a href="{{ url_for('users.user_email_change') }}">Change Email</a></p>
-    <p class="card-text"><a href="{{ url_for('users.user_password_change') }}">Change Password</a></p>
+  <div class="col-lg-4">
+    <div class="content-panel h-100 p-4">
+      <h2 class="h5 mb-3">Account Actions</h2>
+      <div class="d-grid gap-2">
+        <a class="btn btn-outline-primary" href="{{ url_for('users.user_email_change') }}">Change Email</a>
+        <a class="btn btn-outline-secondary" href="{{ url_for('users.user_password_change') }}">Change Password</a>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="card mb-3" style="max-width: 30rem;">
-  <div class="card-header bg-light mb-3">Statistics</div>
-  <div class="card-body">
-    <p class="card-text">Member since: {{ current_user.registered_on.strftime("%A %B %d, %Y") }}</a></p>
-    {% if current_user.last_logged_in != None %}
-    <p class="card-text">Last Logged In: {{ current_user.last_logged_in.strftime("%A %B %d, %Y") }}</p>
-    {% else %}
-    <p class="card-text">First time logged in. Welcome!</p>
-    {% endif %}
-    {% if current_user.email_confirmed_on != None %}
-    <p class="card-text">Email confirmed on: {{ current_user.email_confirmed_on.strftime("%A %B %d, %Y") }}</p>
-    {% else %}
-    <p class="card-text">Email has not been confirmed!</p>
-    {% endif %}
+  <div class="col-lg-4">
+    <div class="content-panel h-100 p-4">
+      <h2 class="h5 mb-3">Statistics</h2>
+      <p>Member since: {{ current_user.registered_on.strftime("%A %B %d, %Y") }}</p>
+      {% if current_user.last_logged_in is not none %}
+      <p>Last logged in: {{ current_user.last_logged_in.strftime("%A %B %d, %Y") }}</p>
+      {% else %}
+      <p>First time logged in. Welcome!</p>
+      {% endif %}
+      {% if current_user.email_confirmed_on is not none %}
+      <p class="mb-0">Email confirmed on: {{ current_user.email_confirmed_on.strftime("%A %B %d, %Y") }}</p>
+      {% else %}
+      <p class="mb-0">Email has not been confirmed yet.</p>
+      {% endif %}
+    </div>
   </div>
 </div>
 

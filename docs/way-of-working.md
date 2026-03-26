@@ -1,12 +1,18 @@
-# Make it your own!
-That was easy right? You are ready to go modify and built your next killer app. Few points to keep in mind:
+# Way of Working
+Few points to keep in mind when you extend this blueprint:
 
-1. Don't forget to commit your code and push to Github as backup ($ git push origin master)
-2. Run $ flake8 projectname to get feedback on coding style
-3. Deploy to staging as final test ($ git push staging master)
-4. Finally: deploy to product ($ git push production master)
+1. Run the test suite before you push:
+   `uv run python -m unittest discover -s project/tests -v`
+2. Keep secrets in `.env`, Codespaces secrets, or Heroku config vars. Do not commit them.
+3. Prefer staging-first deployment if you keep separate Heroku apps.
+4. Keep dependency updates intentional. This repo now uses `pyproject.toml` plus `uv.lock`.
 
-## Working with pip
-When you first start using Flask App Blueprint you install all the required dependencies through pip, by running `pip install -r requirements.txt`. When you install new packages (by running `pip install SomePackage`), make sure to also update the requirements.txt file so next time you run `pip install -r requirements.txt` also the newly installed packages are part of you project. You can do this by running `pip freeze > requirements.txt`.
+## Updating dependencies
+1. Add or update dependencies with `uv add`, `uv remove`, or `uv lock --upgrade-package`
+2. Verify the app boots, migrations run, and tests pass
+3. Commit both `pyproject.toml` and `uv.lock`
 
-More on pip: https://pip.pypa.io/en/stable/user_guide/
+## Database workflow
+1. Generate or edit migrations when models change
+2. Apply them locally with `uv run flask db upgrade`
+3. Heroku deployments run migrations automatically through the `release` process in `Procfile`
