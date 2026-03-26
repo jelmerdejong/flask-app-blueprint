@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "postCreateCommand": "python -m pip install uv && uv sync --locked",
+  "postCreateCommand": "uv sync --locked",
   "customizations": {
     "vscode": {
       "settings": {
