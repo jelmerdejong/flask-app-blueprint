@@ -12,6 +12,5 @@
 * Dependency manager and lockfile: `uv` with `pyproject.toml` and `uv.lock`
 * Process model: Gunicorn via [Procfile](../Procfile)
 * Tests: Python `unittest`
-* CI: CircleCI
 * Cloud development: GitHub Codespaces via [`.devcontainer/devcontainer.json`](../.devcontainer/devcontainer.json)
 * Deployment target: Heroku
